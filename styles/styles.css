@@ -1,0 +1,331 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
+body {
+  position: relative;
+  background-color: white;
+}
+
+.createaccount {
+  width: 460px;
+  height: fit-content;
+  background-color: white;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: right;
+  border-radius: 12px;
+  padding-bottom: 50px;
+  gap: 5.5px;
+}
+
+.cretebody {
+  background-color: inherit;
+  padding-inline: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.close {
+  margin-left: auto;
+  padding-top: 20px;
+  padding-right: 15px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.cretebody > .title {
+  font-family: "Inter";
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 100%;
+  color: rgba(20, 20, 20, 1);
+  margin-bottom: 6px;
+}
+
+.cretebody > .text {
+  font-family: "Inter";
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 100%;
+  color: rgba(102, 102, 102, 1);
+}
+
+.dashes {
+  width: 100%;
+  height: 8px;
+  display: flex;
+  gap: 8px;
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+.dash {
+  border-radius: 30px;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(238, 237, 252, 1);
+}
+
+.dash.opened {
+  background-color: rgba(183, 179, 244, 1);
+}
+.dash.finished {
+  background-color: rgba(79, 70, 229, 1);
+}
+
+.emailinput {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.emailinput > .title {
+  font-family: "Inter";
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 100%;
+  vertical-align: middle;
+  color: rgba(61, 61, 61, 1);
+}
+
+.input {
+  border: 1.5px solid rgba(209, 209, 209, 1);
+  padding: 12px 15px 19px 13px;
+  border-radius: 8px;
+  outline: none;
+  color: rgba(138, 138, 138, 1);
+}
+
+.nextbutton {
+  width: 100%;
+  text-align: center;
+  padding: 11.5px 10px;
+  background-color: rgba(79, 70, 229, 1);
+  color: rgba(255, 255, 255, 1);
+  border-radius: 8px;
+  font-family: "Inter";
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  margin-top: 16px;
+  margin-bottom: 16px;
+  border: none;
+  cursor: pointer;
+  display: block;
+}
+
+.nextbutton:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.or {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: rgba(138, 138, 138, 1);
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  gap: 7px;
+  height: 21px;
+  margin-bottom: 8px;
+}
+
+.line {
+  width: 100%;
+  height: 1px;
+  border-top: 1px solid rgba(209, 209, 209, 1);
+}
+
+.loginop {
+  font-family: "Inter";
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  text-align: center;
+  vertical-align: middle;
+  color: rgba(102, 102, 102, 1);
+}
+
+.loginspan {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 100%;
+  text-align: center;
+  text-decoration: underline;
+  text-decoration-style: solid;
+  text-underline-offset: 25%;
+  color: rgba(20, 20, 20, 1);
+  cursor: pointer;
+}
+
+/* ── Modal overlay ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-overlay.hidden {
+  display: none;
+}
+.step {
+  width: 100%;
+}
+/* ── Step visibility ── */
+.step.hidden {
+  display: none;
+}
+
+/* ── Back button ── */
+.back-btn {
+  position: absolute;
+  top: 18px;
+  left: 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 50%;
+  transition: background 0.15s;
+}
+.back-btn:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+/* ── Password input wrapper ── */
+.input-wrap {
+  position: relative;
+  width: 100%;
+}
+.input-wrap .input {
+  width: 100%;
+  padding-right: 42px;
+  box-sizing: border-box;
+}
+.eye-btn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgba(138, 138, 138, 1);
+  display: flex;
+  align-items: center;
+  padding: 0;
+}
+.eye-btn:hover {
+  color: rgba(61, 61, 61, 1);
+}
+
+/* ── Field errors ── */
+.field-error {
+  display: none;
+  color: #e53935;
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* ── Error state styling ── */
+.emailinput.has-error .input,
+.emailinput.has-error .input-wrap .input {
+  border-color: #e53935;
+  border-width: 1.5px;
+  color: #e53935;
+}
+
+.emailinput.has-error > .title {
+  color: #e53935;
+}
+
+/* ── Login form ── */
+.login-form {
+  width: 100%;
+  margin-top: 24px;
+}
+
+/* ── Avatar dropzone ── */
+.avatar-dropzone {
+  width: 100%;
+  border: 1.5px dashed rgba(209, 209, 209, 1);
+  border-radius: 8px;
+  padding: 24px 16px;
+  text-align: center;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition:
+    border-color 0.2s,
+    background 0.2s;
+}
+.avatar-dropzone:hover,
+.avatar-dropzone.drag-over {
+  border-color: rgba(79, 70, 229, 1);
+  background: rgba(238, 237, 252, 0.4);
+}
+.avatar-preview-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  color: rgba(102, 102, 102, 1);
+}
+.upload-link {
+  color: rgba(79, 70, 229, 1);
+  text-decoration: underline;
+  cursor: pointer;
+}
+.upload-hint {
+  font-size: 12px;
+  color: rgba(138, 138, 138, 1);
+}
+
+/* ── Success screen ── */
+.success-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 0 16px;
+  gap: 12px;
+}
+.success-check {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(79, 70, 229, 1);
+  color: white;
+  font-size: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.success-title {
+  font-family: "Inter";
+  font-weight: 600;
+  font-size: 22px;
+  color: rgba(20, 20, 20, 1);
+}
+.success-sub {
+  font-family: "Inter";
+  font-size: 14px;
+  color: rgba(102, 102, 102, 1);
+  text-align: center;
+  line-height: 1.6;
+}
