@@ -14,10 +14,11 @@ async function login(credentials) {
       },
       body: JSON.stringify(credentials),
     });
-    return await res.json();
+    const data = await res.json();
+    return { ok: res.ok, data };
   } catch (error) {
     console.error("Login error:", error);
-    return null;
+    return { ok: false, error };
   }
 }
 

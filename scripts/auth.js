@@ -43,7 +43,16 @@ window.logout = logout;
 async function getProfile() {
   const token = getToken();
   if (!token) return null;
-  return await apiGetProfile(token);
+
+  const profile = await apiGetProfile(token);
+  if (!profile) {
+    // Clear invalid token and update UI if the session is no longer valid.
+    clearToken();
+    if (typeof window.updateAuthUI === "function") {
+      window.updateAuthUI();
+    }
+  }
+  return profile;
 }
 
 async function updateProfile(profileData) {

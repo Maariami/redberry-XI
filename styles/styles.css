@@ -2,7 +2,7 @@
 
 body {
   position: relative;
-  background-color: white;
+  background-color: rgba(245, 245, 245, 1);
 }
 
 .createaccount {
@@ -516,6 +516,9 @@ select.input {
   padding: 24px 177px;
   display: flex;
   align-items: center;
+  border-bottom: 1px solid rgba(209, 209, 209, 1);
+  box-shadow: 0px 0px 11.7px 0px rgba(0, 0, 0, 0.04);
+  background-color: rgba(245, 245, 245, 1);
 }
 .browse {
   display: flex;
@@ -601,4 +604,200 @@ select.input {
 }
 .surati {
   position: relative;
+}
+.main {
+  padding-inline: 177px;
+  width: 100%;
+  padding-top: 64px;
+}
+.scrollable {
+  width: 100%;
+  height: 420px;
+}
+
+.slider {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 30px;
+}
+
+.slide {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: 0.5s;
+}
+
+.slide.active {
+  opacity: 1;
+}
+
+.slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.content {
+  position: absolute;
+  top: 48px;
+  left: 48px;
+  color: white;
+}
+
+.content h1 {
+  margin-bottom: 12px;
+  font-family: "Inter";
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 100%;
+}
+.content p {
+  max-width: 1150px;
+  font-family: "Inter";
+  font-weight: 300;
+  font-size: 24px;
+  line-height: 100%;
+}
+.content button {
+  padding: 20px 25px;
+  border: none;
+  border-radius: 8px;
+  background: #4f46e5;
+  color: white;
+  cursor: pointer;
+  font-family: "Inter";
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 100%;
+  margin-top: 40px;
+}
+
+.arrow {
+  position: absolute;
+  width: 54px;
+  cursor: pointer;
+  transition:
+    opacity 0.2s ease,
+    filter 0.2s ease;
+}
+
+.arrow.disabled {
+  opacity: 0.5;
+  filter: grayscale(1);
+  pointer-events: none;
+  cursor: default;
+}
+
+.arrow.left {
+  right: 126px;
+  bottom: 55px;
+  rotate: 180deg;
+}
+
+.arrow.right {
+  right: 48px;
+  bottom: 55px;
+}
+
+.dots {
+  position: absolute;
+  bottom: 78px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+}
+
+.dot {
+  width: 57px;
+  height: 8px;
+  background: rgba(193, 188, 188, 0.5);
+  border-radius: 999px;
+}
+
+.dot.active {
+  background: rgba(245, 245, 245, 1);
+}
+/* footer */
+.footer {
+  margin-top: 120px;
+  padding-inline: 177px;
+  padding-top: 80px;
+  padding-bottom: 20px;
+  border-top: 1px solid rgba(209, 209, 209, 1);
+  height: fit-content;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 74px;
+}
+.linetwo {
+  font-family: "Inter";
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 100%;
+  color: rgba(102, 102, 102, 1);
+  display: flex;
+  justify-content: space-between;
+}
+.logosfooter {
+  display: flex;
+  flex-direction: column;
+}
+.logotext {
+  max-width: 250px;
+  margin-top: 16px;
+  margin-bottom: 24px;
+  font-family: "Inter";
+  font-weight: 500;
+  font-style: Medium;
+  font-size: 14px;
+  line-height: 100%;
+  vertical-align: middle;
+  color: rgba(19, 14, 103, 1);
+}
+.logos {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  font-family: "Inter";
+  font-weight: 500;
+  font-style: Medium;
+  font-size: 24px;
+  line-height: 100%;
+  color: rgba(19, 14, 103, 1);
+}
+.lineone {
+  display: flex;
+  justify-content: space-between;
+}
+.lists {
+  display: flex;
+  gap: 120px;
+}
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-family: "Inter";
+  line-height: 24px;
+  letter-spacing: 0%;
+  color: rgba(102, 102, 102, 1);
+  font-size: 18px;
+  font-weight: 400;
+}
+.list div {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.listtitle {
+  margin-bottom: 8px;
+  color: rgba(19, 14, 103, 1);
+  font-weight: 600;
+  font-size: 20px;
 }

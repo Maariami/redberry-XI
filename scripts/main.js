@@ -108,14 +108,21 @@ loginSubmitBtn.addEventListener("click", async () => {
     return;
   }
 
-  const data = await login({ email, password });
+  const result = await login({ email, password });
 
-  if (data) {
-    saveToken(data.token);
+  const token = result?.data?.token ?? result?.data?.data?.token;
+  if (result?.ok && token) {
+    saveToken(token);
     updateAuthUI();
     closeLogin();
   } else {
-    showErr(loginGlobalError, "Login failed.");
+    const message =
+      result?.data?.message ||
+      result?.data?.errors?.email?.[0] ||
+      result?.data?.errors?.password?.[0] ||
+      result?.error?.message ||
+      "Login failed.";
+    showErr(loginGlobalError, message);
   }
 
   setLoading(loginSubmitBtn, false);

@@ -8,6 +8,7 @@
     <title>Redberry</title>
   </head>
   <body>
+    <!-- HEADER -->
     <div class="header">
       <div class="logo"><img src="./assets/Logo.png" alt="" /></div>
       <div class="browse">
@@ -55,449 +56,557 @@
         <img src="./assets/incomplete.png" alt="" class="complete" />
       </div>
     </div>
-
-    <!-- REGISTRATION MODAL -->
-    <div class="modal-overlay hidden" id="registerOverlay">
-      <div class="createaccount" id="registerModal">
-        <button class="back-btn" id="regBackBtn" aria-label="Go back">
-          <svg
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="#333"
-            stroke-width="2.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <polyline points="15 18 9 12 15 6" />
-          </svg>
-        </button>
-        <button class="close" id="regCloseBtn" aria-label="Close">
-          <img src="./assets/Vector.png" alt="X" />
-        </button>
-        <div class="cretebody">
-          <div class="title">Create Account</div>
-          <div class="text">Join and start learning today</div>
-          <div class="dashes">
-            <div class="dash" id="dash1"></div>
-            <div class="dash" id="dash2"></div>
-            <div class="dash" id="dash3"></div>
-          </div>
-
-          <!-- STEP 1 -->
-          <div class="step" id="step1">
-            <div class="emailinput">
-              <label class="title" for="regEmail">Email*</label>
-              <input
-                class="input"
-                type="email"
-                id="regEmail"
-                placeholder="you@example.com"
-                autocomplete="email"
-              />
-              <span class="field-error" id="regEmailError"></span>
-            </div>
-            <button class="nextbutton" id="regNextBtn1">Next</button>
-            <div class="or">
-              <div class="line"></div>
-              <span>or</span>
-              <div class="line"></div>
-            </div>
-            <div class="loginop">
-              Already have an account?
-              <span class="loginspan switch-to-login">Log In</span>
-            </div>
-          </div>
-
-          <!-- STEP 2 -->
-          <div class="step hidden" id="step2">
-            <div class="emailinput">
-              <label class="title" for="regPassword">Password*</label>
-              <div class="input-wrap">
-                <input
-                  class="input"
-                  type="password"
-                  id="regPassword"
-                  placeholder="Password"
-                  autocomplete="new-password"
-                />
-                <button class="eye-btn" data-target="regPassword" type="button">
-                  <img src="./assets/open Eye.png" alt="" class="eye-icon" />
-                </button>
-              </div>
-              <span class="field-error" id="regPasswordError"></span>
-            </div>
-            <div class="emailinput" style="margin-top: 16px">
-              <label class="title" for="regConfirmPassword"
-                >Confirm Password*</label
-              >
-              <div class="input-wrap">
-                <input
-                  class="input"
-                  type="password"
-                  id="regConfirmPassword"
-                  placeholder="••••••••"
-                  autocomplete="new-password"
-                />
-                <button
-                  class="eye-btn"
-                  data-target="regConfirmPassword"
-                  type="button"
-                >
-                  <img src="./assets/open Eye.png" alt="" class="eye-icon" />
-                </button>
-              </div>
-              <span class="field-error" id="regConfirmPasswordError"></span>
-            </div>
-            <button class="nextbutton" id="regNextBtn2">Next</button>
-            <div class="or">
-              <div class="line"></div>
-              <span>or</span>
-              <div class="line"></div>
-            </div>
-            <div class="loginop">
-              Already have an account?
-              <span class="loginspan switch-to-login">Log In</span>
-            </div>
-          </div>
-
-          <!-- STEP 3 -->
-          <div class="step hidden" id="step3">
-            <div class="emailinput">
-              <label class="title" for="regUsername">Username*</label>
-              <input
-                class="input"
-                type="text"
-                id="regUsername"
-                placeholder="Username"
-                autocomplete="username"
-              />
-              <span class="field-error" id="regUsernameError"></span>
-            </div>
-            <div class="emailinput" style="margin-top: 16px">
-              <label class="title">Upload Avatar</label>
-              <div class="avatar-dropzone" id="avatarDropzone">
-                <input
-                  type="file"
-                  id="avatarFile"
-                  accept=".jpg,.jpeg,.png,.webp"
-                  hidden
-                />
-                <div class="avatar-preview-area" id="avatarPreviewArea">
-                  <img
-                    src="./assets/Icon.svg"
-                    alt="Upload icon"
-                    class="upload-icon"
-                  />
-                  <p>
-                    Drag and drop or
-                    <span class="upload-link" id="uploadLink">Upload file</span>
-                  </p>
-                  <p class="upload-hint">JPG, PNG or WebP</p>
-                </div>
-              </div>
-              <span class="field-error" id="regAvatarError"></span>
-            </div>
-            <button class="nextbutton" id="regSignupBtn">Sign Up</button>
-            <div class="or">
-              <div class="line"></div>
-              <span>or</span>
-              <div class="line"></div>
-            </div>
-            <div class="loginop">
-              Already have an account?
-              <span class="loginspan switch-to-login">Log In</span>
-            </div>
-          </div>
-
-          <!-- SUCCESS -->
-          <div class="step hidden" id="stepSuccess">
-            <div class="success-wrap">
-              <div class="success-check">✓</div>
-              <p class="success-title">You're in!</p>
-              <p class="success-sub">
-                Account created successfully. Welcome aboard 🎉
+    <!-- MAIN BODY -->
+    <div class="main">
+      <div class="scrollable">
+        <div class="slider">
+          <div class="slide active">
+            <img src="./assets/pg1.png" />
+            <div class="content">
+              <h1>Start learning something new today</h1>
+              <p>
+                Explore a wide range of expert-led courses in design,
+                development, business, and more. Find the skills you need to
+                grow your career and learn at your own pace.
               </p>
+              <button>Browse Courses</button>
             </div>
           </div>
 
-          <span
-            class="field-error"
-            id="regGlobalError"
-            style="text-align: center; margin-top: 8px; display: none"
-          ></span>
-        </div>
-      </div>
-    </div>
+          <div class="slide">
+            <img src="./assets/pg2.png" />
+            <div class="content">
+              <h1>Pick up where you left off</h1>
+              <p>
+                Your learning journey is already in progress. Continue your
+                enrolled courses, track your progress, and stay on track toward
+                completing your goals.
+              </p>
+              <button>Start Learning</button>
+            </div>
+          </div>
 
-    <!-- LOGIN MODAL -->
-    <div class="modal-overlay hidden" id="loginOverlay">
-      <div class="createaccount" id="loginModal">
-        <button class="close" id="loginCloseBtn" aria-label="Close">
-          <img src="./assets/Vector.png" alt="X" />
-        </button>
-        <div class="cretebody">
-          <div class="title">Welcome Back</div>
-          <div class="text">Log in to continue your learning</div>
-          <div class="login-form">
-            <div class="emailinput">
-              <label class="title" for="loginEmail">Email</label>
-              <input
-                class="input"
-                type="email"
-                id="loginEmail"
-                placeholder="you@example.com"
-                autocomplete="email"
-              />
-              <span class="field-error" id="loginEmailError"></span>
+          <div class="slide">
+            <img src="././assets/pg3.png" />
+            <div class="content">
+              <h1>Learn together, grow faster</h1>
+              <button>Learn More</button>
             </div>
-            <div class="emailinput" style="margin-top: 16px">
-              <label class="title" for="loginPassword">Password</label>
-              <div class="input-wrap">
-                <input
-                  class="input"
-                  type="password"
-                  id="loginPassword"
-                  placeholder="••••••••"
-                  autocomplete="current-password"
-                />
-                <button
-                  class="eye-btn"
-                  data-target="loginPassword"
-                  type="button"
-                >
-                  <img src="./assets/open Eye.png" alt="" class="eye-icon" />
-                </button>
-              </div>
-              <span class="field-error" id="loginPasswordError"></span>
-            </div>
-            <span
-              class="field-error"
-              id="loginGlobalError"
-              style="text-align: center; margin-top: 8px; display: none"
-            ></span>
-            <button
-              class="nextbutton"
-              id="loginSubmitBtn"
-              style="margin-top: 16px"
-            >
-              Log In
-            </button>
-            <div class="or">
-              <div class="line"></div>
-              <span>or</span>
-              <div class="line"></div>
-            </div>
-            <div class="loginop">
-              Don't have an account?
-              <span class="loginspan switch-to-register">Sign Up</span>
-            </div>
+          </div>
+
+          <img class="arrow left" src="./assets/arrow.svg" />
+          <img class="arrow right" src="./assets/arrow.svg" />
+
+          <div class="dots">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
           </div>
         </div>
       </div>
-    </div>
-
-    <!-- PROFILE MODAL -->
-    <div class="modal-overlay hidden" id="profileOverlay">
-      <div class="createaccount" id="profileModal">
-        <button class="close" id="profileCloseBtn" aria-label="Close">
-          <img src="./assets/Vector.png" alt="X" />
-        </button>
-        <div class="cretebody">
-          <div class="title">Profile</div>
-          <div class="profile-summary">
-            <div class="surati">
-              <img
-                src="./assets/profilepic.png"
-                alt="Profile"
-                class="profilepicture profile-preview"
-              />
-              <img
-                src="./assets/incomplete.png"
-                alt="Status"
-                class="complete profile-status-icon"
-              />
-            </div>
-            <div class="profile-summary-body">
-              <div id="profileUsername" class="profile-name">Username</div>
-              <div
-                id="profileCompletion"
-                class="profile-completion status-incomplete"
-              >
-                Profile not completed
-              </div>
-            </div>
-          </div>
-          <div class="profile-form">
-            <!-- Full Name with inline checkmark -->
-            <div class="emailinput profile-fullname-field">
-              <label class="title" for="profileFullName">Full Name</label>
-              <div class="input-wrap">
-                <input
-                  class="input"
-                  type="text"
-                  id="profileFullName"
-                  placeholder="Full Name"
-                  autocomplete="name"
-                />
-                <svg
-                  class="field-check-icon hidden"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M13.5 4.5L6.5 11.5L3 8"
-                    stroke="#16a34a"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </div>
-              <span class="field-error" id="profileFullNameError"></span>
-            </div>
-            <!-- Email with inline checkmark -->
-            <div
-              class="emailinput profile-email-field"
-              style="margin-top: 16px"
+      <!-- REGISTRATION MODAL -->
+      <div class="modal-overlay hidden" id="registerOverlay">
+        <div class="createaccount" id="registerModal">
+          <button class="back-btn" id="regBackBtn" aria-label="Go back">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#333"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
             >
-              <label class="title" for="profileEmail">Email</label>
-              <div class="input-wrap">
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
+          </button>
+          <button class="close" id="regCloseBtn" aria-label="Close">
+            <img src="./assets/Vector.png" alt="X" />
+          </button>
+          <div class="cretebody">
+            <div class="title">Create Account</div>
+            <div class="text">Join and start learning today</div>
+            <div class="dashes">
+              <div class="dash" id="dash1"></div>
+              <div class="dash" id="dash2"></div>
+              <div class="dash" id="dash3"></div>
+            </div>
+
+            <!-- STEP 1 -->
+            <div class="step" id="step1">
+              <div class="emailinput">
+                <label class="title" for="regEmail">Email*</label>
                 <input
                   class="input"
                   type="email"
-                  id="profileEmail"
+                  id="regEmail"
                   placeholder="you@example.com"
                   autocomplete="email"
-                  readonly
                 />
-                <svg
-                  class="field-check-icon"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M13.5 4.5L6.5 11.5L3 8"
-                    stroke="#16a34a"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
+                <span class="field-error" id="regEmailError"></span>
               </div>
-              <span class="field-error" id="profileEmailError"></span>
+              <button class="nextbutton" id="regNextBtn1">Next</button>
+              <div class="or">
+                <div class="line"></div>
+                <span>or</span>
+                <div class="line"></div>
+              </div>
+              <div class="loginop">
+                Already have an account?
+                <span class="loginspan switch-to-login">Log In</span>
+              </div>
             </div>
-            <div class="field-row" style="margin-top: 16px">
+
+            <!-- STEP 2 -->
+            <div class="step hidden" id="step2">
               <div class="emailinput">
-                <label class="title" for="profilePhone">Mobile Number</label>
+                <label class="title" for="regPassword">Password*</label>
+                <div class="input-wrap">
+                  <input
+                    class="input"
+                    type="password"
+                    id="regPassword"
+                    placeholder="Password"
+                    autocomplete="new-password"
+                  />
+                  <button
+                    class="eye-btn"
+                    data-target="regPassword"
+                    type="button"
+                  >
+                    <img src="./assets/open Eye.png" alt="" class="eye-icon" />
+                  </button>
+                </div>
+                <span class="field-error" id="regPasswordError"></span>
+              </div>
+              <div class="emailinput" style="margin-top: 16px">
+                <label class="title" for="regConfirmPassword"
+                  >Confirm Password*</label
+                >
+                <div class="input-wrap">
+                  <input
+                    class="input"
+                    type="password"
+                    id="regConfirmPassword"
+                    placeholder="••••••••"
+                    autocomplete="new-password"
+                  />
+                  <button
+                    class="eye-btn"
+                    data-target="regConfirmPassword"
+                    type="button"
+                  >
+                    <img src="./assets/open Eye.png" alt="" class="eye-icon" />
+                  </button>
+                </div>
+                <span class="field-error" id="regConfirmPasswordError"></span>
+              </div>
+              <button class="nextbutton" id="regNextBtn2">Next</button>
+              <div class="or">
+                <div class="line"></div>
+                <span>or</span>
+                <div class="line"></div>
+              </div>
+              <div class="loginop">
+                Already have an account?
+                <span class="loginspan switch-to-login">Log In</span>
+              </div>
+            </div>
+
+            <!-- STEP 3 -->
+            <div class="step hidden" id="step3">
+              <div class="emailinput">
+                <label class="title" for="regUsername">Username*</label>
                 <input
                   class="input"
-                  type="tel"
-                  id="profilePhone"
-                  placeholder="Phone number"
-                  autocomplete="tel"
+                  type="text"
+                  id="regUsername"
+                  placeholder="Username"
+                  autocomplete="username"
                 />
-                <span class="field-error" id="profilePhoneError"></span>
+                <span class="field-error" id="regUsernameError"></span>
               </div>
-              <div class="emailinput">
-                <label class="title" for="profileAge">Age</label>
-                <select class="input" id="profileAge">
-                  <option value="">Select age</option>
-                  <option value="16">16</option>
-                  <option value="17">17</option>
-                  <option value="18">18</option>
-                  <option value="19">19</option>
-                  <option value="20">20</option>
-                  <option value="21">21</option>
-                  <option value="22">22</option>
-                  <option value="23">23</option>
-                  <option value="24">24</option>
-                  <option value="25">25</option>
-                  <option value="26">26</option>
-                  <option value="27">27</option>
-                  <option value="28">28</option>
-                  <option value="29">29</option>
-                  <option value="30">30</option>
-                  <option value="35">35</option>
-                  <option value="40">40</option>
-                  <option value="45">45</option>
-                  <option value="50">50</option>
-                  <option value="55">55</option>
-                  <option value="60">60</option>
-                  <option value="65">65</option>
-                  <option value="70">70</option>
-                  <option value="75">75</option>
-                  <option value="80">80</option>
-                  <option value="85">85</option>
-                  <option value="90">90</option>
-                  <option value="95">95</option>
-                  <option value="100">100</option>
-                  <option value="105">105</option>
-                  <option value="110">110</option>
-                  <option value="115">115</option>
-                  <option value="120">120</option>
-                </select>
-                <span class="field-error" id="profileAgeError"></span>
+              <div class="emailinput" style="margin-top: 16px">
+                <label class="title">Upload Avatar</label>
+                <div class="avatar-dropzone" id="avatarDropzone">
+                  <input
+                    type="file"
+                    id="avatarFile"
+                    accept=".jpg,.jpeg,.png,.webp"
+                    hidden
+                  />
+                  <div class="avatar-preview-area" id="avatarPreviewArea">
+                    <img
+                      src="./assets/Icon.svg"
+                      alt="Upload icon"
+                      class="upload-icon"
+                    />
+                    <p>
+                      Drag and drop or
+                      <span class="upload-link" id="uploadLink"
+                        >Upload file</span
+                      >
+                    </p>
+                    <p class="upload-hint">JPG, PNG or WebP</p>
+                  </div>
+                </div>
+                <span class="field-error" id="regAvatarError"></span>
+              </div>
+              <button class="nextbutton" id="regSignupBtn">Sign Up</button>
+              <div class="or">
+                <div class="line"></div>
+                <span>or</span>
+                <div class="line"></div>
+              </div>
+              <div class="loginop">
+                Already have an account?
+                <span class="loginspan switch-to-login">Log In</span>
               </div>
             </div>
-            <div class="emailinput" style="margin-top: 16px">
-              <label class="title">Upload Avatar</label>
-              <div class="avatar-dropzone" id="profileAvatarDropzone">
+
+            <!-- SUCCESS -->
+            <div class="step hidden" id="stepSuccess">
+              <div class="success-wrap">
+                <div class="success-check">✓</div>
+                <p class="success-title">You're in!</p>
+                <p class="success-sub">
+                  Account created successfully. Welcome aboard 🎉
+                </p>
+              </div>
+            </div>
+
+            <span
+              class="field-error"
+              id="regGlobalError"
+              style="text-align: center; margin-top: 8px; display: none"
+            ></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- LOGIN MODAL -->
+      <div class="modal-overlay hidden" id="loginOverlay">
+        <div class="createaccount" id="loginModal">
+          <button class="close" id="loginCloseBtn" aria-label="Close">
+            <img src="./assets/Vector.png" alt="X" />
+          </button>
+          <div class="cretebody">
+            <div class="title">Welcome Back</div>
+            <div class="text">Log in to continue your learning</div>
+            <div class="login-form">
+              <div class="emailinput">
+                <label class="title" for="loginEmail">Email</label>
                 <input
-                  type="file"
-                  id="profileAvatarFile"
-                  accept=".jpg,.jpeg,.png,.webp"
-                  hidden
+                  class="input"
+                  type="email"
+                  id="loginEmail"
+                  placeholder="you@example.com"
+                  autocomplete="email"
                 />
-                <div class="avatar-preview-area" id="profileAvatarPreviewArea">
-                  <img
-                    src="./assets/Icon.svg"
-                    alt="Upload icon"
-                    class="upload-icon"
+                <span class="field-error" id="loginEmailError"></span>
+              </div>
+              <div class="emailinput" style="margin-top: 16px">
+                <label class="title" for="loginPassword">Password</label>
+                <div class="input-wrap">
+                  <input
+                    class="input"
+                    type="password"
+                    id="loginPassword"
+                    placeholder="••••••••"
+                    autocomplete="current-password"
                   />
-                  <p>
-                    Drag and drop or
-                    <span class="upload-link" id="profileUploadLink"
-                      >Upload file</span
-                    >
-                  </p>
-                  <p class="upload-hint">JPG, PNG or WebP</p>
+                  <button
+                    class="eye-btn"
+                    data-target="loginPassword"
+                    type="button"
+                  >
+                    <img src="./assets/open Eye.png" alt="" class="eye-icon" />
+                  </button>
+                </div>
+                <span class="field-error" id="loginPasswordError"></span>
+              </div>
+              <span
+                class="field-error"
+                id="loginGlobalError"
+                style="text-align: center; margin-top: 8px; display: none"
+              ></span>
+              <button
+                class="nextbutton"
+                id="loginSubmitBtn"
+                style="margin-top: 16px"
+              >
+                Log In
+              </button>
+              <div class="or">
+                <div class="line"></div>
+                <span>or</span>
+                <div class="line"></div>
+              </div>
+              <div class="loginop">
+                Don't have an account?
+                <span class="loginspan switch-to-register">Sign Up</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROFILE MODAL -->
+      <div class="modal-overlay hidden" id="profileOverlay">
+        <div class="createaccount" id="profileModal">
+          <button class="close" id="profileCloseBtn" aria-label="Close">
+            <img src="./assets/Vector.png" alt="X" />
+          </button>
+          <div class="cretebody">
+            <div class="title">Profile</div>
+            <div class="profile-summary">
+              <div class="surati">
+                <img
+                  src="./assets/profilepic.png"
+                  alt="Profile"
+                  class="profilepicture profile-preview"
+                />
+                <img
+                  src="./assets/incomplete.png"
+                  alt="Status"
+                  class="complete profile-status-icon"
+                />
+              </div>
+              <div class="profile-summary-body">
+                <div id="profileUsername" class="profile-name">Username</div>
+                <div
+                  id="profileCompletion"
+                  class="profile-completion status-incomplete"
+                >
+                  Profile not completed
                 </div>
               </div>
-              <span class="field-error" id="profileAvatarError"></span>
             </div>
-            <button
-              class="nextbutton"
-              id="profileUploadBtn"
-              style="margin-top: 16px"
-            >
-              Update Profile
-            </button>
-            <span
-              id="profileGlobalError"
-              class="field-error"
-              style="
-                display: none;
-                text-align: center;
-                margin-top: 12px;
-                width: 100%;
-              "
-            ></span>
-            <div
-              id="profileSuccessMessage"
-              class="profile-success"
-              style="display: none; margin-top: 12px; text-align: center"
-            >
-              Profile updated successfully ✓
+            <div class="profile-form">
+              <!-- Full Name with inline checkmark -->
+              <div class="emailinput profile-fullname-field">
+                <label class="title" for="profileFullName">Full Name</label>
+                <div class="input-wrap">
+                  <input
+                    class="input"
+                    type="text"
+                    id="profileFullName"
+                    placeholder="Full Name"
+                    autocomplete="name"
+                  />
+                  <svg
+                    class="field-check-icon hidden"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13.5 4.5L6.5 11.5L3 8"
+                      stroke="#16a34a"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </div>
+                <span class="field-error" id="profileFullNameError"></span>
+              </div>
+              <!-- Email with inline checkmark -->
+              <div
+                class="emailinput profile-email-field"
+                style="margin-top: 16px"
+              >
+                <label class="title" for="profileEmail">Email</label>
+                <div class="input-wrap">
+                  <input
+                    class="input"
+                    type="email"
+                    id="profileEmail"
+                    placeholder="you@example.com"
+                    autocomplete="email"
+                    readonly
+                  />
+                  <svg
+                    class="field-check-icon"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13.5 4.5L6.5 11.5L3 8"
+                      stroke="#16a34a"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </div>
+                <span class="field-error" id="profileEmailError"></span>
+              </div>
+              <div class="field-row" style="margin-top: 16px">
+                <div class="emailinput">
+                  <label class="title" for="profilePhone">Mobile Number</label>
+                  <input
+                    class="input"
+                    type="tel"
+                    id="profilePhone"
+                    placeholder="Phone number"
+                    autocomplete="tel"
+                  />
+                  <span class="field-error" id="profilePhoneError"></span>
+                </div>
+                <div class="emailinput">
+                  <label class="title" for="profileAge">Age</label>
+                  <select class="input" id="profileAge">
+                    <option value="">Select age</option>
+                    <option value="16">16</option>
+                    <option value="17">17</option>
+                    <option value="18">18</option>
+                    <option value="19">19</option>
+                    <option value="20">20</option>
+                    <option value="21">21</option>
+                    <option value="22">22</option>
+                    <option value="23">23</option>
+                    <option value="24">24</option>
+                    <option value="25">25</option>
+                    <option value="26">26</option>
+                    <option value="27">27</option>
+                    <option value="28">28</option>
+                    <option value="29">29</option>
+                    <option value="30">30</option>
+                    <option value="35">35</option>
+                    <option value="40">40</option>
+                    <option value="45">45</option>
+                    <option value="50">50</option>
+                    <option value="55">55</option>
+                    <option value="60">60</option>
+                    <option value="65">65</option>
+                    <option value="70">70</option>
+                    <option value="75">75</option>
+                    <option value="80">80</option>
+                    <option value="85">85</option>
+                    <option value="90">90</option>
+                    <option value="95">95</option>
+                    <option value="100">100</option>
+                    <option value="105">105</option>
+                    <option value="110">110</option>
+                    <option value="115">115</option>
+                    <option value="120">120</option>
+                  </select>
+                  <span class="field-error" id="profileAgeError"></span>
+                </div>
+              </div>
+              <div class="emailinput" style="margin-top: 16px">
+                <label class="title">Upload Avatar</label>
+                <div class="avatar-dropzone" id="profileAvatarDropzone">
+                  <input
+                    type="file"
+                    id="profileAvatarFile"
+                    accept=".jpg,.jpeg,.png,.webp"
+                    hidden
+                  />
+                  <div
+                    class="avatar-preview-area"
+                    id="profileAvatarPreviewArea"
+                  >
+                    <img
+                      src="./assets/Icon.svg"
+                      alt="Upload icon"
+                      class="upload-icon"
+                    />
+                    <p>
+                      Drag and drop or
+                      <span class="upload-link" id="profileUploadLink"
+                        >Upload file</span
+                      >
+                    </p>
+                    <p class="upload-hint">JPG, PNG or WebP</p>
+                  </div>
+                </div>
+                <span class="field-error" id="profileAvatarError"></span>
+              </div>
+              <button
+                class="nextbutton"
+                id="profileUploadBtn"
+                style="margin-top: 16px"
+              >
+                Update Profile
+              </button>
+              <span
+                id="profileGlobalError"
+                class="field-error"
+                style="
+                  display: none;
+                  text-align: center;
+                  margin-top: 12px;
+                  width: 100%;
+                "
+              ></span>
+              <div
+                id="profileSuccessMessage"
+                class="profile-success"
+                style="display: none; margin-top: 12px; text-align: center"
+              >
+                Profile updated successfully ✓
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-
+    <!-- FOOTER -->
+    <div class="footer">
+      <div class="lineone">
+        <div class="logosfooter">
+          <div class="logos">
+            <img src="./assets/Logo.png" alt="" />
+            <p>Bootcamp</p>
+          </div>
+          <div class="logotext">
+            Your learning journey starts here! Browse courses to get started.
+          </div>
+          <div class="socials">
+            <img src="./assets/Social Media.png" alt="" />
+          </div>
+        </div>
+        <div class="lists">
+          <div class="list">
+            <p class="listtitle">Explore</p>
+            <p>Enrolled Courses</p>
+            <p>Browse Courses</p>
+          </div>
+          <div class="list">
+            <p class="listtitle">Account</p>
+            <p>My Profile</p>
+          </div>
+          <div class="list">
+            <p class="listtitle">Contact</p>
+            <div>
+              <img src="./assets/mail.png" alt="" />
+              <p>contact@company.com</p>
+            </div>
+            <div>
+              <img src="./assets/phone.png" alt="" />
+              <p>(+995) 555 111 222</p>
+            </div>
+            <div>
+              <img src="./assets/location.png" alt="" />
+              <p>Aghmashenebeli St.115</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="linetwo">
+        <p class="copyright">Copyright © 2026 Redberry International</p>
+        <p class="terms">
+          All Rights Reserved |<span style="color: rgba(79, 70, 229, 1)"
+            >Terms and Conditions</span
+          >
+          | <span style="color: rgba(79, 70, 229, 1)">Privacy Policy</span>
+        </p>
+      </div>
+    </div>
     <script src="scripts/utils.js"></script>
     <script src="scripts/api.js"></script>
     <script src="scripts/auth.js"></script>
@@ -505,5 +614,6 @@
     <script src="scripts/register.js"></script>
     <script src="scripts/profile.js"></script>
     <script src="scripts/main.js"></script>
+    <script src="scripts/slider.js"></script>
   </body>
 </html>
