@@ -2,16 +2,36 @@
 
 // ─── Auth token storage ───────────────────────────────────────────────────────
 function saveToken(token) {
-  localStorage.setItem("auth_token", token);
+  if (typeof token !== "string") {
+    return false;
+  }
+
+  const normalizedToken = token.trim();
+  if (
+    !normalizedToken ||
+    normalizedToken === "undefined" ||
+    normalizedToken === "null"
+  ) {
+    return false;
+  }
+
+  localStorage.setItem("auth_token", normalizedToken);
+  window.dispatchEvent(new CustomEvent("auth:login"));
+  return true;
 }
 function getToken() {
-  return localStorage.getItem("auth_token");
+  const token = localStorage.getItem("auth_token");
+  if (!token || token === "undefined" || token === "null") {
+    return null;
+  }
+
+  return token;
 }
 function clearToken() {
   localStorage.removeItem("auth_token");
 }
 function isLoggedIn() {
-  return !!getToken();
+  return Boolean(getToken());
 }
 
 // ─── Logout function ─────────────────────────────────────────────────────────

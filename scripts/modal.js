@@ -1,71 +1,111 @@
-"use strict";
+(function () {
+  const registerOverlay = document.getElementById("registerOverlay");
+  const loginOverlay = document.getElementById("loginOverlay");
+  const profileOverlay = document.getElementById("profileOverlay");
 
-// ─── Modal open/close ─────────────────────────────────────────────────────────
-const registerOverlay = document.getElementById("registerOverlay");
-const loginOverlay = document.getElementById("loginOverlay");
-const profileOverlay = document.getElementById("profileOverlay");
+  function openRegister() {
+    if (loginOverlay) loginOverlay.classList.add("hidden");
+    if (profileOverlay) profileOverlay.classList.add("hidden");
+    if (typeof window.resetRegisterForm === "function") {
+      window.resetRegisterForm();
+    }
+    if (registerOverlay) registerOverlay.classList.remove("hidden");
+    document.body.style.overflow = "hidden";
+  }
 
-function openRegister() {
-  loginOverlay.classList.add("hidden");
-  profileOverlay.classList.add("hidden");
-  resetRegisterForm();
-  registerOverlay.classList.remove("hidden");
-  document.body.style.overflow = "hidden";
-}
+  function closeRegister() {
+    if (registerOverlay) registerOverlay.classList.add("hidden");
+    document.body.style.overflow = "";
+  }
 
-function closeRegister() {
-  registerOverlay.classList.add("hidden");
-  document.body.style.overflow = "";
-}
+  function openLogin() {
+    if (registerOverlay) registerOverlay.classList.add("hidden");
+    if (profileOverlay) profileOverlay.classList.add("hidden");
+    if (typeof window.resetLoginForm === "function") {
+      window.resetLoginForm();
+    }
+    if (loginOverlay) loginOverlay.classList.remove("hidden");
+    document.body.style.overflow = "hidden";
+  }
 
-function openLogin() {
-  registerOverlay.classList.add("hidden");
-  profileOverlay.classList.add("hidden");
-  resetLoginForm();
-  loginOverlay.classList.remove("hidden");
-  document.body.style.overflow = "hidden";
-}
+  function closeLogin() {
+    if (loginOverlay) loginOverlay.classList.add("hidden");
+    document.body.style.overflow = "";
+  }
 
-function closeLogin() {
-  loginOverlay.classList.add("hidden");
-  document.body.style.overflow = "";
-}
+  async function openProfile() {
+    if (!profileOverlay) return;
 
-async function openProfile() {
-  registerOverlay.classList.add("hidden");
-  loginOverlay.classList.add("hidden");
-  resetProfileForm();
-  profilePreviewImage.src = "./assets/profilepic.png"; // Set default avatar
-  await fillProfileForm();
-  profileUploadBtn.disabled = !isProfileFormValid();
-  profileOverlay.classList.remove("hidden");
-  document.body.style.overflow = "hidden";
-}
+    if (registerOverlay) registerOverlay.classList.add("hidden");
+    if (loginOverlay) loginOverlay.classList.add("hidden");
+    if (typeof window.resetProfileForm === "function") {
+      window.resetProfileForm();
+    }
 
-function closeProfile() {
-  profileOverlay.classList.add("hidden");
-  document.body.style.overflow = "";
-}
+    const previewImage = window.profilePreviewImage;
+    if (previewImage instanceof HTMLImageElement) {
+      previewImage.src = "./assets/profilepic.png";
+    }
 
-function attemptCloseProfile() {
-  if (confirmCloseProfile()) closeProfile();
-}
+    if (typeof window.fillProfileForm === "function") {
+      await window.fillProfileForm();
+    }
 
-// Close on overlay click (outside modal)
-registerOverlay.addEventListener("click", (e) => {
-  if (e.target === registerOverlay) closeRegister();
-});
-loginOverlay.addEventListener("click", (e) => {
-  if (e.target === loginOverlay) closeLogin();
-});
-profileOverlay.addEventListener("click", (e) => {
-  if (e.target === profileOverlay) attemptCloseProfile();
-});
+    if (
+      window.profileUploadBtn instanceof HTMLButtonElement &&
+      typeof window.isProfileFormValid === "function"
+    ) {
+      window.profileUploadBtn.disabled = !window.isProfileFormValid();
+    }
 
-// Switch links
-document
-  .querySelectorAll(".switch-to-login")
-  .forEach((el) => el.addEventListener("click", openLogin));
-document
-  .querySelectorAll(".switch-to-register")
-  .forEach((el) => el.addEventListener("click", openRegister));
+    profileOverlay.classList.remove("hidden");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeProfile() {
+    if (profileOverlay) profileOverlay.classList.add("hidden");
+    document.body.style.overflow = "";
+  }
+
+  function attemptCloseProfile() {
+    if (
+      typeof window.confirmCloseProfile !== "function" ||
+      window.confirmCloseProfile()
+    ) {
+      closeProfile();
+    }
+  }
+
+  if (registerOverlay) {
+    registerOverlay.addEventListener("click", (event) => {
+      if (event.target === registerOverlay) closeRegister();
+    });
+  }
+
+  if (loginOverlay) {
+    loginOverlay.addEventListener("click", (event) => {
+      if (event.target === loginOverlay) closeLogin();
+    });
+  }
+
+  if (profileOverlay) {
+    profileOverlay.addEventListener("click", (event) => {
+      if (event.target === profileOverlay) attemptCloseProfile();
+    });
+  }
+
+  document
+    .querySelectorAll(".switch-to-login")
+    .forEach((element) => element.addEventListener("click", openLogin));
+  document
+    .querySelectorAll(".switch-to-register")
+    .forEach((element) => element.addEventListener("click", openRegister));
+
+  window.openRegister = openRegister;
+  window.closeRegister = closeRegister;
+  window.openLogin = openLogin;
+  window.closeLogin = closeLogin;
+  window.openProfile = openProfile;
+  window.closeProfile = closeProfile;
+  window.attemptCloseProfile = attemptCloseProfile;
+})();

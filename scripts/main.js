@@ -71,7 +71,7 @@ function renderFeaturedCourses(courses) {
   }
 
   cards.innerHTML = courses
-    .map((course) => {
+    .map((course, idx) => {
       const image = course.image || "./assets/cardimage.png";
       const title = course.title || "Untitled course";
       const description = course.description || "No description available.";
@@ -83,8 +83,9 @@ function renderFeaturedCourses(courses) {
       const priceRaw = course.basePrice ?? "0.00";
       const price = Number(priceRaw).toFixed(2);
 
+      // Add data-course-idx for event delegation
       return `
-        <div class="card">
+        <div class="card" data-course-idx="${idx}">
           <div>
             <img class="classimage" src="${image}" alt="${title}" />
           </div>
@@ -108,11 +109,23 @@ function renderFeaturedCourses(courses) {
                 >$${price}</span
               >
             </div>
-            <button class="details" type="button">Details</button>
+            <button class="details" type="button" data-course-idx="${idx}">Details</button>
           </div>
         </div>`;
     })
     .join("");
+
+  // Add click event to all details buttons
+  cards.querySelectorAll(".details").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const idx = btn.getAttribute("data-course-idx");
+      if (courses[idx]) {
+        // Pass course id or info in query string for future use
+        const courseId = courses[idx].id || idx;
+        window.location.href = `course-details.html?id=${encodeURIComponent(courseId)}`;
+      }
+    });
+  });
 }
 
 async function loadFeaturedCourses() {
@@ -263,10 +276,12 @@ document.querySelector(".proficon").addEventListener("click", () => {
 window.addEventListener("auth:login", updateAuthUI);
 
 // ─── Init ─────────────────────────────────────────────────────────────────────
-goToStep(1);
-updateAuthUI();
 if (document.readyState === "loading") {
-  window.addEventListener("DOMContentLoaded", loadFeaturedCourses);
+  window.addEventListener("DOMContentLoaded", () => {
+    if (typeof updateAuthUI === "function") updateAuthUI();
+    if (typeof loadFeaturedCourses === "function") loadFeaturedCourses();
+  });
 } else {
-  loadFeaturedCourses();
+  if (typeof updateAuthUI === "function") updateAuthUI();
+  if (typeof loadFeaturedCourses === "function") loadFeaturedCourses();
 }
