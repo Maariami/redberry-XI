@@ -118,3 +118,17 @@ async function apiUpdateProfile(token, profileData) {
     return { ok: false, error };
   }
 }
+
+// ─── Featured courses API ───────────────────────────────────────────────────
+async function apiGetFeaturedCourses() {
+  try {
+    const res = await fetch(`${API_BASE}/courses/featured`, {
+      headers: { Accept: "application/json" },
+    });
+    const data = await res.json();
+    return { ok: res.ok, data };
+  } catch (error) {
+    console.error("Failed to fetch featured courses:", error);
+    return { ok: false, error };
+  }
+}

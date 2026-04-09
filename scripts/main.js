@@ -54,6 +54,96 @@ async function updateProfileDisplay() {
   }
 }
 
+async function getFeaturedCourses() {
+  return await apiGetFeaturedCourses();
+}
+
+function renderFeaturedCourses(courses) {
+  const cards = document.querySelector(".cards");
+  if (!cards) {
+    console.error("Featured courses container not found.");
+    return;
+  }
+
+  if (!Array.isArray(courses) || courses.length === 0) {
+    cards.innerHTML = `<div class="no-courses">No featured courses available at the moment.</div>`;
+    return;
+  }
+
+  cards.innerHTML = courses
+    .map((course) => {
+      const image = course.image || "./assets/cardimage.png";
+      const title = course.title || "Untitled course";
+      const description = course.description || "No description available.";
+      const instructor = course.instructor?.name || "Course instructor";
+      const ratingValue = Number(course.avgRating) || 0;
+      const rating = Number.isFinite(ratingValue)
+        ? ratingValue.toFixed(1)
+        : "0.0";
+      const priceRaw = course.basePrice ?? "0.00";
+      const price = Number(priceRaw).toFixed(2);
+
+      return `
+        <div class="card">
+          <div>
+            <img class="classimage" src="${image}" alt="${title}" />
+          </div>
+          <div class="coursebaseinfo">
+            <p>${instructor}</p>
+            <div class="rating">
+              <img src="./assets/star.png" alt="Rating" />${rating}
+            </div>
+          </div>
+          <div class="coursetitle">${title}</div>
+          <div class="coursedesc">${description}</div>
+          <div class="lastcardline">
+            <div class="price">
+              starting from
+              <span
+                style="
+                  color: rgba(20, 20, 20, 1);
+                  font-size: 32px;
+                  font-weight: 600;
+                "
+                >$${price}</span
+              >
+            </div>
+            <button class="details" type="button">Details</button>
+          </div>
+        </div>`;
+    })
+    .join("");
+}
+
+async function loadFeaturedCourses() {
+  const result = await getFeaturedCourses();
+  const courses =
+    result?.ok && Array.isArray(result.data)
+      ? result.data
+      : result?.ok && Array.isArray(result.data?.data)
+        ? result.data.data
+        : result?.ok && Array.isArray(result.data?.courses)
+          ? result.data.courses
+          : null;
+
+  if (Array.isArray(courses)) {
+    renderFeaturedCourses(courses);
+    return;
+  }
+
+  const cards = document.querySelector(".cards");
+  if (cards) {
+    cards.innerHTML = `<div class="no-courses">Unable to load featured courses.</div>`;
+  }
+
+  console.error(
+    "Unable to load featured courses:",
+    result?.error?.message ||
+      result?.error ||
+      JSON.stringify(result?.data ?? result),
+  );
+}
+
 // ─── Eye toggles (works for both modals) ─────────────────────────────────────
 // Open eye = password hidden | Closed eye = password visible
 const EYE_OPEN = "./assets/open Eye.png";
@@ -140,6 +230,15 @@ loginPassword.addEventListener("keydown", (e) => {
 document.querySelector(".login").addEventListener("click", openLogin);
 document.querySelector(".signup").addEventListener("click", openRegister);
 
+const footerProfileLink = document.getElementById("footerProfileLink");
+if (footerProfileLink) {
+  footerProfileLink.addEventListener("click", () => {
+    if (isLoggedIn()) {
+      openProfile();
+    }
+  });
+}
+
 // ─── Close buttons ───────────────────────────────────────────────────────────
 document.getElementById("regCloseBtn").addEventListener("click", closeRegister);
 document.getElementById("loginCloseBtn").addEventListener("click", closeLogin);
@@ -166,3 +265,8 @@ window.addEventListener("auth:login", updateAuthUI);
 // ─── Init ─────────────────────────────────────────────────────────────────────
 goToStep(1);
 updateAuthUI();
+if (document.readyState === "loading") {
+  window.addEventListener("DOMContentLoaded", loadFeaturedCourses);
+} else {
+  loadFeaturedCourses();
+}

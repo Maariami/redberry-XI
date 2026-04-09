@@ -12,20 +12,7 @@
     <div class="header">
       <div class="logo"><img src="./assets/Logo.png" alt="" /></div>
       <div class="browse">
-        <svg
-          class="browse-icon"
-          width="26"
-          height="26"
-          viewBox="0 0 26 26"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M14.5066 11.6797C14.5831 12.0307 14.6652 12.3604 14.7576 12.6689C15.0651 13.6967 15.4917 14.5561 16.1677 15.2383C16.9889 16.0669 18.0871 16.5345 19.488 16.8467C18.0872 17.1589 16.9889 17.6265 16.1677 18.4551C15.4918 19.1372 15.0651 19.9968 14.7576 21.0244C14.6615 21.3454 14.5759 21.6895 14.4968 22.0566C14.4162 21.6947 14.33 21.356 14.2332 21.04C13.921 20.0216 13.4925 19.1745 12.8181 18.501C12.1432 17.8269 11.2981 17.4029 10.2859 17.0977C10.0116 17.0149 9.7204 16.9398 9.41187 16.8701C10.8643 16.558 11.9992 16.0892 12.8425 15.2393C13.519 14.5575 13.9461 13.6979 14.2546 12.6699C14.3473 12.3611 14.4298 12.031 14.5066 11.6797Z"
-            stroke="currentColor"
-            stroke-width="2"
-          />
-        </svg>
+        <img class="browse-icon" src="./assets/sparkle.svg" alt="" />
         <div>Browse Courses</div>
       </div>
       <div class="buttons not-logged-in">
@@ -58,6 +45,7 @@
     </div>
     <!-- MAIN BODY -->
     <div class="main">
+      <!-- slider -->
       <div class="scrollable">
         <div class="slider">
           <div class="slide active">
@@ -101,6 +89,111 @@
             <span class="dot active"></span>
             <span class="dot"></span>
             <span class="dot"></span>
+          </div>
+        </div>
+      </div>
+      <!-- START  LEARNING -->
+      <div class="startlearning">
+        <div class="learntitle">Start Learning Today</div>
+        <div class="learndesc">
+          Choose from our most popular courses and begin your journey
+        </div>
+        <div class="cards">
+          <div class="card">
+            <div>
+              <img class="classimage" src="./assets/cardimage.png" alt="" />
+            </div>
+            <div class="coursebaseinfo">
+              <p>lecturer</p>
+              <div class="rating">
+                <img src="./assets/star.png" alt="" />4.9
+              </div>
+            </div>
+            <div class="coursetitle">
+              Advanced React & TypeScript Development
+            </div>
+            <div class="coursedesc">
+              Master modern React patterns, hooks, and TypeScript integration
+              for building scalable web applications.
+            </div>
+            <div class="lastcardline">
+              <div class="price">
+                starting from
+                <span
+                  style="
+                    color: rgba(20, 20, 20, 1);
+                    font-size: 32px;
+                    font-weight: 600;
+                  "
+                  >$299</span
+                >
+              </div>
+              <button class="details">Details</button>
+            </div>
+          </div>
+          <div class="card">
+            <div>
+              <img class="classimage" src="./assets/cardimage.png" alt="" />
+            </div>
+            <div class="coursebaseinfo">
+              <p>lecturer</p>
+              <div class="rating">
+                <img src="./assets/star.png" alt="" />4.9
+              </div>
+            </div>
+            <div class="coursetitle">
+              Advanced React & TypeScript Development
+            </div>
+            <div class="coursedesc">
+              Master modern React patterns, hooks, and TypeScript integration
+              for building scalable web applications.
+            </div>
+            <div class="lastcardline">
+              <div class="price">
+                starting from
+                <span
+                  style="
+                    color: rgba(20, 20, 20, 1);
+                    font-size: 32px;
+                    font-weight: 600;
+                  "
+                  >$299</span
+                >
+              </div>
+              <button class="details">Details</button>
+            </div>
+          </div>
+          <div class="card">
+            <div>
+              <img class="classimage" src="./assets/cardimage.png" alt="" />
+            </div>
+            <div class="coursebaseinfo">
+              <p>lecturer</p>
+              <div class="rating">
+                <img src="./assets/star.png" alt="" />4.9
+              </div>
+            </div>
+            <div class="coursetitle">
+              Advanced React & TypeScript Development
+            </div>
+            <div class="coursedesc">
+              Master modern React patterns, hooks, and TypeScript integration
+              for building scalable web applications.
+            </div>
+            <div class="lastcardline">
+              <div class="price">
+                starting from
+                <span
+                  style="
+                    color: rgba(20, 20, 20, 1);
+                    font-size: 32px;
+                    font-weight: 600;
+                  "
+                  >$299</span
+                >
+              </div>
+              <button class="details">Details</button>
+            </div>
           </div>
         </div>
       </div>
@@ -555,6 +648,7 @@
         </div>
       </div>
     </div>
+
     <!-- FOOTER -->
     <div class="footer">
       <div class="lineone">
@@ -578,7 +672,7 @@
           </div>
           <div class="list">
             <p class="listtitle">Account</p>
-            <p>My Profile</p>
+            <p id="footerProfileLink">My Profile</p>
           </div>
           <div class="list">
             <p class="listtitle">Contact</p>
