@@ -1,7 +1,7 @@
 "use strict";
 
 // ─── API Configuration ───────────────────────────────────────────────────────
-const API_BASE = "https://api.redclass.redberryinternship.ge/api";
+const API_BASE = "/api";
 
 // ─── Login & Logout API ─────────────────────────────────────────────────────
 async function login(credentials) {
@@ -129,6 +129,166 @@ async function apiGetFeaturedCourses() {
     return { ok: res.ok, data };
   } catch (error) {
     console.error("Failed to fetch featured courses:", error);
+    return { ok: false, error };
+  }
+}
+
+async function apiGetCourseWeeklySchedules(courseId) {
+  try {
+    const res = await fetch(
+      `${API_BASE}/courses/${courseId}/weekly-schedules`,
+      {
+        headers: { Accept: "application/json" },
+      },
+    );
+    const data = await res.json();
+    return { ok: res.ok, data, status: res.status };
+  } catch (error) {
+    console.error("Failed to fetch weekly schedules:", error);
+    return { ok: false, error };
+  }
+}
+
+async function apiGetCourseTimeSlots(courseId, weeklyScheduleId) {
+  try {
+    const params = new URLSearchParams({
+      weekly_schedule_id: String(weeklyScheduleId),
+    });
+    const res = await fetch(
+      `${API_BASE}/courses/${courseId}/time-slots?${params.toString()}`,
+      {
+        headers: { Accept: "application/json" },
+      },
+    );
+    const data = await res.json();
+    return { ok: res.ok, data, status: res.status };
+  } catch (error) {
+    console.error("Failed to fetch time slots:", error);
+    return { ok: false, error };
+  }
+}
+
+async function apiGetCourseSessionTypes(
+  courseId,
+  weeklyScheduleId,
+  timeSlotId,
+) {
+  try {
+    const params = new URLSearchParams({
+      weekly_schedule_id: String(weeklyScheduleId),
+      time_slot_id: String(timeSlotId),
+    });
+    const res = await fetch(
+      `${API_BASE}/courses/${courseId}/session-types?${params.toString()}`,
+      {
+        headers: { Accept: "application/json" },
+      },
+    );
+    const data = await res.json();
+    return { ok: res.ok, data, status: res.status };
+  } catch (error) {
+    console.error("Failed to fetch session types:", error);
+    return { ok: false, error };
+  }
+}
+
+async function apiGetEnrollments(token) {
+  try {
+    const res = await fetch(`${API_BASE}/enrollments`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+      },
+    });
+    const data = await res.json();
+    return { ok: res.ok, data, status: res.status };
+  } catch (error) {
+    console.error("Failed to fetch enrollments:", error);
+    return { ok: false, error };
+  }
+}
+
+async function apiCreateEnrollment(token, payload) {
+  try {
+    const res = await fetch(`${API_BASE}/enrollments`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+    const data = await res.json();
+    return { ok: res.ok, data, status: res.status };
+  } catch (error) {
+    console.error("Failed to create enrollment:", error);
+    return { ok: false, error };
+  }
+}
+
+async function apiCompleteEnrollment(token, enrollmentId) {
+  const endpoint = `${API_BASE}/enrollments/${enrollmentId}/complete`;
+
+  try {
+    const res = await fetch(endpoint, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+      },
+    });
+
+    const contentType = res.headers.get("content-type") || "";
+    const data = contentType.includes("application/json")
+      ? await res.json()
+      : null;
+    return { ok: res.ok, data, status: res.status };
+  } catch (error) {
+    return { ok: false, error };
+  }
+}
+
+async function apiDeleteEnrollment(token, enrollmentId) {
+  try {
+    const res = await fetch(`${API_BASE}/enrollments/${enrollmentId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+      },
+    });
+    const contentType = res.headers.get("content-type") || "";
+    const data = contentType.includes("application/json")
+      ? await res.json()
+      : null;
+    return { ok: res.ok, data, status: res.status };
+  } catch (error) {
+    console.error("Failed to delete enrollment:", error);
+    return { ok: false, error };
+  }
+}
+
+async function apiCreateCourseReview(token, courseId, payload) {
+  try {
+    const res = await fetch(`${API_BASE}/courses/${courseId}/reviews`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const contentType = res.headers.get("content-type") || "";
+    const data = contentType.includes("application/json")
+      ? await res.json()
+      : null;
+
+    return { ok: res.ok, data, status: res.status };
+  } catch (error) {
+    console.error("Failed to create course review:", error);
     return { ok: false, error };
   }
 }

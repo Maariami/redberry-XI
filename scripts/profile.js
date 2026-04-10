@@ -567,6 +567,11 @@
       await updateAuthUI(); // Update header UI
       await fillProfileForm(); // Refresh profile data in modal
       validateProfileForm(); // Update validation states and button
+      window.dispatchEvent(
+        new CustomEvent("profile:updated", {
+          detail: { profile: updatedProfile },
+        }),
+      );
 
       if (typeof closeProfile === "function") {
         closeProfile();
