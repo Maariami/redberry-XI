@@ -59,7 +59,7 @@ async function getFeaturedCourses() {
 }
 
 function renderFeaturedCourses(courses) {
-  const cards = document.querySelector(".cards");
+  const cards = document.getElementById("featuredCoursesCards");
   if (!cards) {
     console.error("Featured courses container not found.");
     return;
@@ -144,7 +144,7 @@ async function loadFeaturedCourses() {
     return;
   }
 
-  const cards = document.querySelector(".cards");
+  const cards = document.getElementById("featuredCoursesCards");
   if (cards) {
     cards.innerHTML = `<div class="no-courses">Unable to load featured courses.</div>`;
   }

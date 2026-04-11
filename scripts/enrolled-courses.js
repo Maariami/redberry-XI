@@ -9,6 +9,15 @@
     loadingEnrollments: false,
   };
 
+  function escapeHtml(value) {
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/\"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
   function getNestedValue(source, path) {
     return String(path)
       .split(".")
@@ -289,6 +298,36 @@
     return overlay;
   }
 
+  function getEnrollmentCardData(enrollment) {
+    const courseMeta =
+      enrolledState.featuredCoursesById.get(String(enrollment.courseId)) || {};
+    const courseTitle =
+      enrollment.courseTitle || courseMeta.title || "Untitled course";
+    const courseImage = courseMeta.image || "./assets/cardimage.png";
+    const instructorName =
+      courseMeta.instructor?.name ||
+      getDisplayText(courseMeta.lecturer, "Course instructor") ||
+      "Course instructor";
+    const ratingValue = Number(courseMeta.avgRating ?? courseMeta.rating ?? 0);
+    const rating = Number.isFinite(ratingValue)
+      ? ratingValue.toFixed(1)
+      : "0.0";
+
+    return {
+      courseId: enrollment.courseId || "",
+      courseTitle,
+      courseImage,
+      instructorName,
+      rating,
+      progress: enrollment.progress,
+      weeklyScheduleLabel: enrollment.weeklyScheduleLabel,
+      timeSlotLabel: enrollment.timeSlotLabel,
+      sessionTypeIcon: enrollment.sessionTypeIcon,
+      sessionTypeLabel: enrollment.sessionTypeLabel,
+      location: enrollment.location,
+    };
+  }
+
   function setFooterEnrolledCoursesActive(isActive) {
     const footerEnrolledCoursesLink = findFooterEnrolledCoursesLink();
     footerEnrolledCoursesLink?.classList.toggle("active", isActive);
@@ -337,58 +376,45 @@
 
     enrolledCoursesList.innerHTML = enrolledState.enrollments
       .map((enrollment) => {
-        const courseMeta =
-          enrolledState.featuredCoursesById.get(String(enrollment.courseId)) ||
-          {};
-        const courseTitle =
-          enrollment.courseTitle || courseMeta.title || "Untitled course";
-        const courseImage = courseMeta.image || "./assets/cardimage.png";
-        const instructorName =
-          courseMeta.instructor?.name || "Course instructor";
-        const ratingValue = Number(
-          courseMeta.avgRating ?? courseMeta.rating ?? 0,
-        );
-        const rating = Number.isFinite(ratingValue)
-          ? ratingValue.toFixed(1)
-          : "0.0";
+        const cardData = getEnrollmentCardData(enrollment);
 
         return `
-          <div class="enrolledcard" data-course-id="${enrollment.courseId || ""}">
+          <div class="enrolledcard" data-course-id="${cardData.courseId}">
             <div class="enrolledmodallineone">
-              <img src="${courseImage}" alt="${courseTitle}" />
+              <img src="${escapeHtml(cardData.courseImage)}" alt="${escapeHtml(cardData.courseTitle)}" />
               <div class="enrolledinfos">
                 <div class="lineoneofenrolled">
                   <div class="enrolledleacturer">
                     Instructor
-                    <span style="color: rgba(102, 102, 102, 1)">${instructorName}</span>
+                    <span style="color: rgba(102, 102, 102, 1)">${escapeHtml(cardData.instructorName)}</span>
                   </div>
                   <div class="enrolledrating">
-                    <img src="./assets/star.png" alt="" />${rating}
+                    <img src="./assets/star.png" alt="" />${escapeHtml(cardData.rating)}
                   </div>
                 </div>
-                <p class="enrolledtitle">${courseTitle}</p>
+                <p class="enrolledtitle">${escapeHtml(cardData.courseTitle)}</p>
                 <div class="enrolledslot weekdays">
-                  <img src="./assets/cal.svg" alt="" />${enrollment.weeklyScheduleLabel}
+                  <img src="./assets/cal.svg" alt="" />${escapeHtml(cardData.weeklyScheduleLabel)}
                 </div>
                 <div class="enrolledslot times">
-                  <img src="./assets/time.png" alt="" />${enrollment.timeSlotLabel}
+                  <img src="./assets/time.png" alt="" />${escapeHtml(cardData.timeSlotLabel)}
                 </div>
                 <div class="enrolledslot types">
-                  <img src="${enrollment.sessionTypeIcon}" alt="" />${enrollment.sessionTypeLabel}
+                  <img src="${escapeHtml(cardData.sessionTypeIcon)}" alt="" />${escapeHtml(cardData.sessionTypeLabel)}
                 </div>
                 <div class="enrolledslot locations">
-                  <img src="./assets/location.png" alt="" />${enrollment.location}
+                  <img src="./assets/location.png" alt="" />${escapeHtml(cardData.location)}
                 </div>
               </div>
             </div>
             <div class="enrolledmodallinetwo">
               <div class="courseprogress">
-                ${enrollment.progress}% complete
+                ${cardData.progress}% complete
                 <div class="course-progress-bar">
-                  <div class="course-progress-fill" style="width: ${enrollment.progress}%;"></div>
+                  <div class="course-progress-fill" style="width: ${cardData.progress}%;"></div>
                 </div>
               </div>
-              <button class="viewcoursebtn" type="button" data-course-id="${enrollment.courseId || ""}">View</button>
+              <button class="viewcoursebtn" type="button" data-course-id="${cardData.courseId}">View</button>
             </div>
           </div>`;
       })
@@ -416,16 +442,22 @@
     });
   }
 
-  async function loadEnrolledCourses() {
+  async function loadEnrolledCourses(options = {}) {
+    const { promptLogin = true } = options;
+
     if (typeof isLoggedIn !== "function" || !isLoggedIn()) {
       if (typeof openLogin === "function") {
-        openLogin();
+        if (promptLogin) {
+          openLogin();
+        }
       }
-      return false;
+      return { ok: false, requiresLogin: true, courses: [] };
     }
 
     const token = typeof getToken === "function" ? getToken() : null;
-    if (!token) return false;
+    if (!token) {
+      return { ok: false, requiresLogin: true, courses: [] };
+    }
 
     enrolledState.loadingEnrollments = true;
     renderEnrollmentCards();
@@ -438,14 +470,17 @@
     if (!result?.ok) {
       enrolledState.enrollments = [];
       renderEnrollmentCards();
-      return false;
+      return { ok: false, courses: [] };
     }
 
     enrolledState.enrollments = normalizeCoursePayload(result.data).map(
       normalizeEnrollment,
     );
     renderEnrollmentCards();
-    return true;
+    return {
+      ok: true,
+      courses: enrolledState.enrollments.map(getEnrollmentCardData),
+    };
   }
 
   function openEnrolledCoursesModalUI() {
@@ -466,8 +501,8 @@
   }
 
   async function handleOpenEnrolledCourses() {
-    const canOpen = await loadEnrolledCourses();
-    if (!canOpen) return;
+    const result = await loadEnrolledCourses({ promptLogin: true });
+    if (!result.ok) return;
     openEnrolledCoursesModalUI();
   }
 
@@ -504,6 +539,8 @@
 
   window.openEnrolledCoursesModal = handleOpenEnrolledCourses;
   window.closeEnrolledCoursesModal = closeEnrolledCoursesModal;
+  window.getEnrolledCoursesData = (options = {}) =>
+    loadEnrolledCourses({ promptLogin: false, ...options });
 
   if (document.readyState === "loading") {
     window.addEventListener("DOMContentLoaded", bindEnrolledCoursesUI);
