@@ -3,17 +3,32 @@
   if (window.__redberryBrowseCoursesInitialized) return;
   window.__redberryBrowseCoursesInitialized = true;
 
+  function isBrowseCoursesPage() {
+    return (
+      window.location.pathname.endsWith("/browse-courses.html") ||
+      window.location.pathname.endsWith("browse-courses.html")
+    );
+  }
+
   function openBrowseCourses() {
-    const startLearningSection = document.querySelector(".startlearning");
-    if (startLearningSection) {
-      startLearningSection.scrollIntoView({
+    if (isBrowseCoursesPage()) {
+      const browsePageMain = document.querySelector(".browse-page-main");
+      if (browsePageMain) {
+        browsePageMain.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+        return;
+      }
+
+      window.scrollTo({
         behavior: "smooth",
-        block: "start",
+        top: 0,
       });
       return;
     }
 
-    window.location.href = "index.html#startlearning";
+    window.location.href = "browse-courses.html";
   }
 
   function findFooterBrowseCoursesLink() {

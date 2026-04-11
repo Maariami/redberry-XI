@@ -41,17 +41,41 @@
     const buttonsEl = document.querySelector(".buttons");
     const enrolledEl = document.querySelector(".enrolled");
     const proficon = document.querySelector(".proficon");
+    const authAwareFooter = document.querySelector(
+      '.footer[data-auth-aware-footer="true"]',
+    );
+    const footerEnrolledCoursesLink = authAwareFooter?.querySelector(
+      "#footerEnrolledCoursesLink",
+    );
+    const footerProfileLink =
+      authAwareFooter?.querySelector("#footerProfileLink");
+    const footerLoginLink = authAwareFooter?.querySelector("#footerLoginLink");
+    const footerSignupLink =
+      authAwareFooter?.querySelector("#footerSignupLink");
+
     if (!buttonsEl || !enrolledEl || !proficon) return;
 
     if (typeof isLoggedIn === "function" && isLoggedIn()) {
       buttonsEl.classList.remove("logged-out");
       enrolledEl.classList.add("logged-in");
       proficon.classList.add("logged-in");
+      if (authAwareFooter) {
+        if (footerEnrolledCoursesLink) footerEnrolledCoursesLink.hidden = false;
+        if (footerProfileLink) footerProfileLink.hidden = false;
+        if (footerLoginLink) footerLoginLink.hidden = true;
+        if (footerSignupLink) footerSignupLink.hidden = true;
+      }
       await updateProfileDisplay();
     } else {
       buttonsEl.classList.add("logged-out");
       enrolledEl.classList.remove("logged-in");
       proficon.classList.remove("logged-in");
+      if (authAwareFooter) {
+        if (footerEnrolledCoursesLink) footerEnrolledCoursesLink.hidden = true;
+        if (footerProfileLink) footerProfileLink.hidden = true;
+        if (footerLoginLink) footerLoginLink.hidden = false;
+        if (footerSignupLink) footerSignupLink.hidden = false;
+      }
     }
   }
 
@@ -66,6 +90,13 @@
   const signupBtn = document.querySelector(".signup");
   if (signupBtn && typeof openRegister === "function") {
     signupBtn.addEventListener("click", openRegister);
+  }
+
+  const headerLogo = document.querySelector(".header .logo");
+  if (headerLogo) {
+    headerLogo.addEventListener("click", () => {
+      window.location.href = "index.html";
+    });
   }
 
   const proficon = document.querySelector(".proficon");
@@ -84,6 +115,16 @@
         openProfile();
       }
     });
+  }
+
+  const footerLoginLink = document.getElementById("footerLoginLink");
+  if (footerLoginLink && typeof openLogin === "function") {
+    footerLoginLink.addEventListener("click", openLogin);
+  }
+
+  const footerSignupLink = document.getElementById("footerSignupLink");
+  if (footerSignupLink && typeof openRegister === "function") {
+    footerSignupLink.addEventListener("click", openRegister);
   }
 
   const regCloseBtn = document.getElementById("regCloseBtn");

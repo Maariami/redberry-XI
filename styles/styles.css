@@ -514,6 +514,7 @@ select.input {
 /* ── Header ── */
 .logo {
   margin-right: auto;
+  cursor: pointer;
 }
 .header {
   position: sticky;
@@ -814,6 +815,17 @@ select.input {
   transition: color 0.2s ease;
 }
 #footerProfileLink:hover {
+  color: rgba(79, 70, 229, 1);
+}
+#footerBrowseCoursesLink,
+#footerLoginLink,
+#footerSignupLink {
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+#footerBrowseCoursesLink:hover,
+#footerLoginLink:hover,
+#footerSignupLink:hover {
   color: rgba(79, 70, 229, 1);
 }
 #footerEnrolledCoursesLink {
