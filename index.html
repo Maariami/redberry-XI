@@ -19,7 +19,7 @@
         <div class="login">Log In</div>
         <div class="signup">Sign Up</div>
       </div>
-      <div class="browse enrolled">
+      <div class="browse enrolled" id="headerEnrolledCoursesLink">
         <svg
           class="browse-icon"
           width="26"
@@ -648,7 +648,24 @@
         </div>
       </div>
     </div>
-
+    <div
+      class="modal-overlay hidden enrolledmodal-overlay"
+      id="enrolledCoursesOverlay"
+    >
+      <div
+        class="enrolledmodal"
+        id="enrolledCoursesModal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="enrolledCoursesTitle"
+      >
+        <div class="enrolltitle">
+          <p id="enrolledCoursesTitle">Enrolled Courses</p>
+          <p id="enrolledCoursesCount">Total Enrollments 0</p>
+        </div>
+        <div class="enrolledcards" id="enrolledCoursesList"></div>
+      </div>
+    </div>
     <!-- FOOTER -->
     <div class="footer">
       <div class="lineone">
@@ -667,7 +684,7 @@
         <div class="lists">
           <div class="list">
             <p class="listtitle">Explore</p>
-            <p>Enrolled Courses</p>
+            <p id="footerEnrolledCoursesLink">Enrolled Courses</p>
             <p>Browse Courses</p>
           </div>
           <div class="list">
@@ -708,6 +725,8 @@
     <script src="scripts/login.js"></script>
     <script src="scripts/register.js"></script>
     <script src="scripts/profile.js"></script>
+    <script src="scripts/browse-courses.js"></script>
+    <script src="scripts/enrolled-courses.js"></script>
     <script src="scripts/slider.js"></script>
     <script src="scripts/header-footer.js"></script>
     <script src="scripts/main.js"></script>

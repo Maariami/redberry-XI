@@ -1,5 +1,8 @@
-// Header and footer logic for all pages
+// Header and footer auth/profile logic shared across pages
 (function () {
+  if (window.__redberryHeaderFooterInitialized) return;
+  window.__redberryHeaderFooterInitialized = true;
+
   function appendCacheBuster(url) {
     if (!url) return url;
 
@@ -52,72 +55,86 @@
     }
   }
 
-  // Expose globally for other scripts
   window.updateAuthUI = updateAuthUI;
   window.updateProfileDisplay = updateProfileDisplay;
 
-  // Header button handlers
   const loginBtn = document.querySelector(".login");
-  if (loginBtn && typeof openLogin === "function")
+  if (loginBtn && typeof openLogin === "function") {
     loginBtn.addEventListener("click", openLogin);
+  }
+
   const signupBtn = document.querySelector(".signup");
-  if (signupBtn && typeof openRegister === "function")
+  if (signupBtn && typeof openRegister === "function") {
     signupBtn.addEventListener("click", openRegister);
+  }
+
   const proficon = document.querySelector(".proficon");
-  if (proficon && typeof openProfile === "function")
+  if (proficon && typeof openProfile === "function") {
     proficon.addEventListener("click", () => {
-      if (typeof isLoggedIn === "function" && isLoggedIn()) openProfile();
-    });
-  const footerProfileLink = document.getElementById("footerProfileLink");
-  if (footerProfileLink && typeof openProfile === "function") {
-    footerProfileLink.addEventListener("click", () => {
-      if (typeof isLoggedIn === "function" && isLoggedIn()) openProfile();
+      if (typeof isLoggedIn === "function" && isLoggedIn()) {
+        openProfile();
+      }
     });
   }
 
-  // Close buttons
+  const footerProfileLink = document.getElementById("footerProfileLink");
+  if (footerProfileLink && typeof openProfile === "function") {
+    footerProfileLink.addEventListener("click", () => {
+      if (typeof isLoggedIn === "function" && isLoggedIn()) {
+        openProfile();
+      }
+    });
+  }
+
   const regCloseBtn = document.getElementById("regCloseBtn");
-  if (regCloseBtn && typeof closeRegister === "function")
+  if (regCloseBtn && typeof closeRegister === "function") {
     regCloseBtn.addEventListener("click", closeRegister);
+  }
+
   const loginCloseBtn = document.getElementById("loginCloseBtn");
-  if (loginCloseBtn && typeof closeLogin === "function")
+  if (loginCloseBtn && typeof closeLogin === "function") {
     loginCloseBtn.addEventListener("click", closeLogin);
+  }
+
   const profileCloseBtn = document.getElementById("profileCloseBtn");
-  if (profileCloseBtn && typeof attemptCloseProfile === "function")
+  if (profileCloseBtn && typeof attemptCloseProfile === "function") {
     profileCloseBtn.addEventListener("click", attemptCloseProfile);
+  }
 
-  // Keyboard: Escape closes whichever modal is open
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") {
-      const registerOverlay = document.getElementById("registerOverlay");
-      const loginOverlay = document.getElementById("loginOverlay");
-      const profileOverlay = document.getElementById("profileOverlay");
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape") return;
 
-      if (
-        registerOverlay &&
-        !registerOverlay.classList.contains("hidden") &&
-        typeof closeRegister === "function"
-      )
-        closeRegister();
-      if (
-        loginOverlay &&
-        !loginOverlay.classList.contains("hidden") &&
-        typeof closeLogin === "function"
-      )
-        closeLogin();
-      if (
-        profileOverlay &&
-        !profileOverlay.classList.contains("hidden") &&
-        typeof attemptCloseProfile === "function"
-      )
-        attemptCloseProfile();
+    const registerOverlay = document.getElementById("registerOverlay");
+    const loginOverlay = document.getElementById("loginOverlay");
+    const profileOverlay = document.getElementById("profileOverlay");
+
+    if (
+      registerOverlay &&
+      !registerOverlay.classList.contains("hidden") &&
+      typeof closeRegister === "function"
+    ) {
+      closeRegister();
+    }
+
+    if (
+      loginOverlay &&
+      !loginOverlay.classList.contains("hidden") &&
+      typeof closeLogin === "function"
+    ) {
+      closeLogin();
+    }
+
+    if (
+      profileOverlay &&
+      !profileOverlay.classList.contains("hidden") &&
+      typeof attemptCloseProfile === "function"
+    ) {
+      attemptCloseProfile();
     }
   });
 
-  // Listen for auth changes
   window.addEventListener("auth:login", updateAuthUI);
 
-  // Run on load
   if (document.readyState === "loading") {
     window.addEventListener("DOMContentLoaded", updateAuthUI);
   } else {

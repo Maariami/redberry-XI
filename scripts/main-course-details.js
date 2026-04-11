@@ -179,6 +179,47 @@
     },
   ];
 
+  function getSavedCourseRatingStorageKey(courseId) {
+    return `redberry-course-rating:${String(courseId || "")}`;
+  }
+
+  function loadSavedCourseRating(courseId) {
+    if (!courseId) return 0;
+
+    try {
+      const storedValue = window.localStorage.getItem(
+        getSavedCourseRatingStorageKey(courseId),
+      );
+      const parsedValue = Number(storedValue);
+      return Number.isFinite(parsedValue) && parsedValue > 0 ? parsedValue : 0;
+    } catch (error) {
+      return 0;
+    }
+  }
+
+  function saveSubmittedCourseRating(courseId, rating) {
+    if (!courseId) return;
+
+    try {
+      window.localStorage.setItem(
+        getSavedCourseRatingStorageKey(courseId),
+        String(rating),
+      );
+    } catch (error) {
+      // Ignore storage failures and keep the current in-memory state.
+    }
+  }
+
+  function clearSubmittedCourseRating(courseId) {
+    if (!courseId) return;
+
+    try {
+      window.localStorage.removeItem(getSavedCourseRatingStorageKey(courseId));
+    } catch (error) {
+      // Ignore storage failures and keep the current in-memory state.
+    }
+  }
+
   function normalizeTimeSlotKey(label) {
     return String(label || "")
       .toLowerCase()
@@ -1772,6 +1813,9 @@
     }
 
     hidePopup(courseFinishedPopupEl);
+    clearSubmittedCourseRating(state.courseId);
+    state.submittedCourseRating = 0;
+    updateCourseRatingDisplay();
     state.currentEnrollment = null;
     state.selectedScheduleId = null;
     state.selectedTimeSlotId = null;
@@ -1851,6 +1895,7 @@
   function renderCourse(course) {
     state.course = normalizeCourse(course);
     state.courseId = state.course.id;
+    state.submittedCourseRating = loadSavedCourseRating(state.courseId);
 
     if (titleEl) titleEl.textContent = state.course.title;
     if (descriptionEl) descriptionEl.textContent = state.course.description;
@@ -1889,7 +1934,6 @@
     state.sessionTypes = [];
     state.timeSlotCache = {};
     state.sessionTypeCache = {};
-    state.submittedCourseRating = 0;
     updatePriceSummary();
     updateCourseRatingDisplay();
   }
@@ -1959,6 +2003,7 @@
           }
 
           state.submittedCourseRating = state.selectedCourseRating;
+          saveSubmittedCourseRating(state.courseId, state.selectedCourseRating);
           updateCourseRatingDisplay();
         }
 
