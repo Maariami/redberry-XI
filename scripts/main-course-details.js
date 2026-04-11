@@ -8,6 +8,7 @@
   const hoursEl = document.getElementById("hours");
   const ratingEl = document.getElementById("rating");
   const categoryEl = document.getElementById("category");
+  const categoryIconEl = document.getElementById("courseCategoryIcon");
   const authorEl = document.getElementById("author");
   const descriptionEl = document.getElementById("description");
   const priceEl = document.getElementById("price");
@@ -178,6 +179,16 @@
       icon: "./assets/hybrid.svg",
     },
   ];
+
+  const CATEGORY_ICON_CLASS_BY_NAME = {
+    development: "category-icon--development",
+    design: "category-icon--design",
+    business: "category-icon--business",
+    marketing: "category-icon--marketing",
+    "data science": "category-icon--datascience",
+    "data-science": "category-icon--datascience",
+    datascience: "category-icon--datascience",
+  };
 
   function getSavedCourseRatingStorageKey(courseId) {
     return `redberry-course-rating:${String(courseId || "")}`;
@@ -479,6 +490,14 @@
         firstValue(course, ["category.name", "category", "track"], "General"),
         "General",
       ),
+      categoryIcon: getDisplayText(
+        firstValue(
+          course,
+          ["category.icon", "categoryIcon", "category_icon"],
+          "development",
+        ),
+        "development",
+      ),
       instructorName: getDisplayText(
         firstValue(
           course,
@@ -499,6 +518,13 @@
       ),
       basePrice: Number.isFinite(basePrice) ? basePrice : 0,
     };
+  }
+
+  function getCategoryIconClass(categoryName, categoryIcon) {
+    const iconKey = String(categoryIcon || categoryName || "")
+      .trim()
+      .toLowerCase();
+    return CATEGORY_ICON_CLASS_BY_NAME[iconKey] || "category-icon--development";
   }
 
   function normalizeWeeklySchedule(item, index = 0) {
@@ -1913,6 +1939,12 @@
     }
     if (ratingEl) ratingEl.textContent = state.course.rating;
     if (categoryEl) categoryEl.textContent = state.course.category;
+    if (categoryIconEl) {
+      categoryIconEl.className = `category-icon ${getCategoryIconClass(
+        state.course.category,
+        state.course.categoryIcon,
+      )}`;
+    }
     if (authorEl) authorEl.textContent = state.course.instructorName;
     if (mainImageEl) {
       mainImageEl.src = state.course.image;
@@ -1944,6 +1976,50 @@
         <h1 class="course-detail-title">Course details unavailable</h1>
         <p class="course-detail-description">${message}</p>
       </div>`;
+  }
+
+  async function findCourseById(courseId) {
+    const featuredResult = await apiGetFeaturedCourses();
+    const featuredCourses = normalizeCoursePayload(featuredResult);
+    const featuredMatch = featuredCourses.find(
+      (course) => String(course?.id) === String(courseId),
+    );
+
+    if (featuredMatch) {
+      return featuredMatch;
+    }
+
+    const firstPageResult = await apiGetCourses({ sort: "newest", page: 1 });
+    if (!firstPageResult?.ok) {
+      return null;
+    }
+
+    const firstPageCourses = normalizeCoursePayload(firstPageResult);
+    const firstPageMatch = firstPageCourses.find(
+      (course) => String(course?.id) === String(courseId),
+    );
+    if (firstPageMatch) {
+      return firstPageMatch;
+    }
+
+    const lastPage = Number(firstPageResult?.data?.meta?.lastPage ?? 1) || 1;
+
+    for (let page = 2; page <= lastPage; page += 1) {
+      const pageResult = await apiGetCourses({ sort: "newest", page });
+      if (!pageResult?.ok) {
+        continue;
+      }
+
+      const pageCourses = normalizeCoursePayload(pageResult);
+      const pageMatch = pageCourses.find(
+        (course) => String(course?.id) === String(courseId),
+      );
+      if (pageMatch) {
+        return pageMatch;
+      }
+    }
+
+    return null;
   }
 
   function bindPopupEvents() {
@@ -2128,11 +2204,7 @@
     }
 
     try {
-      const result = await apiGetFeaturedCourses();
-      const courses = normalizeCoursePayload(result);
-      const selectedCourse = courses.find(
-        (course) => String(course?.id) === String(courseId),
-      );
+      const selectedCourse = await findCourseById(courseId);
 
       if (!selectedCourse) {
         renderError("The selected course could not be found.");

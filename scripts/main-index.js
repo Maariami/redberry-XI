@@ -226,7 +226,7 @@
     }
 
     setContinueLearningPosition(true);
-    renderContinueLearningCourses(result.courses);
+    renderContinueLearningCourses(result.courses.slice(0, 3));
   }
 
   // Update header/footer for auth state

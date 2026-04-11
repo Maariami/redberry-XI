@@ -241,7 +241,7 @@
                 <label class="title" for="profileFullName">Full Name</label>
                 <div class="input-wrap">
                   <input class="input" type="text" id="profileFullName" placeholder="Full Name" autocomplete="name" />
-                  <svg class="field-check-icon hidden" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.5 4.5L6.5 11.5L3 8" stroke="#16a34a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                  <img class="field-check-icon" src="./assets/check1.svg" alt="" />
                 </div>
                 <span class="field-error" id="profileFullNameError"></span>
               </div>
@@ -249,21 +249,37 @@
                 <label class="title" for="profileEmail">Email</label>
                 <div class="input-wrap">
                   <input class="input" type="email" id="profileEmail" placeholder="you@example.com" autocomplete="email" readonly />
-                  <svg class="field-check-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.5 4.5L6.5 11.5L3 8" stroke="#16a34a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                  <img class="field-check-icon" src="./assets/check.svg" alt="" />
                 </div>
                 <span class="field-error" id="profileEmailError"></span>
               </div>
               <div class="field-row" style="margin-top: 16px">
-                <div class="emailinput">
+                <div class="emailinput profile-phone-field">
                   <label class="title" for="profilePhone">Mobile Number</label>
-                  <input class="input" type="tel" id="profilePhone" placeholder="Phone number" autocomplete="tel" />
+                  <div class="input-wrap input-wrap--phone">
+                    <span class="phone-prefix">+995</span>
+                    <input class="input" type="tel" id="profilePhone" placeholder="Phone number" autocomplete="tel" inputmode="numeric" />
+                    <img class="field-check-icon" src="./assets/check1.svg" alt="" />
+                  </div>
                   <span class="field-error" id="profilePhoneError"></span>
                 </div>
-                <div class="emailinput">
+                <div class="emailinput profile-age-field">
                   <label class="title" for="profileAge">Age</label>
-                  <select class="input" id="profileAge">
+                  <select class="input profile-age-select" id="profileAge">
                     <option value="">Select age</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="35">35</option><option value="40">40</option><option value="45">45</option><option value="50">50</option><option value="55">55</option><option value="60">60</option><option value="65">65</option><option value="70">70</option><option value="75">75</option><option value="80">80</option><option value="85">85</option><option value="90">90</option><option value="95">95</option><option value="100">100</option><option value="105">105</option><option value="110">110</option><option value="115">115</option><option value="120">120</option>
                   </select>
+                  <button
+                    class="profile-age-dropdown__trigger"
+                    id="profileAgeTrigger"
+                    type="button"
+                    aria-haspopup="listbox"
+                    aria-expanded="false"
+                    aria-controls="profileAgeMenu"
+                  >
+                    <span class="profile-age-dropdown__value is-placeholder" id="profileAgeValue">Select age</span>
+                    <img src="./assets/dropdown.svg" alt="" class="profile-age-dropdown__icon" />
+                  </button>
+                  <div class="profile-age-dropdown__menu" id="profileAgeMenu" role="listbox"></div>
                   <span class="field-error" id="profileAgeError"></span>
                 </div>
               </div>

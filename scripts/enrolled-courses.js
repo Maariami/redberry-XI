@@ -5,8 +5,10 @@
 
   const enrolledState = {
     featuredCoursesById: new Map(),
+    catalogCoursesById: new Map(),
     enrollments: [],
     loadingEnrollments: false,
+    catalogLoaded: false,
   };
 
   function escapeHtml(value) {
@@ -300,7 +302,9 @@
 
   function getEnrollmentCardData(enrollment) {
     const courseMeta =
-      enrolledState.featuredCoursesById.get(String(enrollment.courseId)) || {};
+      enrolledState.featuredCoursesById.get(String(enrollment.courseId)) ||
+      enrolledState.catalogCoursesById.get(String(enrollment.courseId)) ||
+      {};
     const courseTitle =
       enrollment.courseTitle || courseMeta.title || "Untitled course";
     const courseImage = courseMeta.image || "./assets/cardimage.png";
@@ -442,6 +446,38 @@
     });
   }
 
+  async function ensureCatalogCoursesMap(courseIds = []) {
+    const missingCourseIds = courseIds.filter(
+      (courseId) =>
+        courseId &&
+        !enrolledState.featuredCoursesById.has(String(courseId)) &&
+        !enrolledState.catalogCoursesById.has(String(courseId)),
+    );
+
+    if (!missingCourseIds.length || enrolledState.catalogLoaded) return;
+
+    let currentPage = 1;
+    let lastPage = 1;
+
+    do {
+      const result = await apiGetCourses({ sort: "newest", page: currentPage });
+      const courses = normalizeCoursePayload(result);
+      const meta = result?.data?.meta ?? {};
+
+      courses.forEach((course) => {
+        const id = String(firstValue(course, ["id"], ""));
+        if (id) {
+          enrolledState.catalogCoursesById.set(id, course);
+        }
+      });
+
+      lastPage = Number(meta.lastPage) || currentPage;
+      currentPage += 1;
+    } while (currentPage <= lastPage);
+
+    enrolledState.catalogLoaded = true;
+  }
+
   async function loadEnrolledCourses(options = {}) {
     const { promptLogin = true } = options;
 
@@ -476,6 +512,11 @@
     enrolledState.enrollments = normalizeCoursePayload(result.data).map(
       normalizeEnrollment,
     );
+
+    await ensureCatalogCoursesMap(
+      enrolledState.enrollments.map((enrollment) => enrollment.courseId),
+    );
+
     renderEnrollmentCards();
     return {
       ok: true,

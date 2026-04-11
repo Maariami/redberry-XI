@@ -34,29 +34,81 @@
       </div>
       <div class="rightpage">
         <div class="rightlineone">
-          <div class="numofshown">Showing 9 o ut of 90</div>
-          <div class="filter-sort">
-            <div class="filter-sort__header">
+          <div class="numofshown" id="browseCoursesCount">
+            Showing 0 out of 0
+          </div>
+          <div class="filter-sort" id="browseSort">
+            <button
+              class="filter-sort__header"
+              id="browseSortButton"
+              type="button"
+              aria-expanded="false"
+              aria-controls="browseSortDropdown"
+            >
               <span class="filter-sort__label">Sort By:</span>
-              <span class="filter-sort__selected">Newest First</span>
-              <img
-                class="filter-sort__arrow"
-                src="./assets/dropdown.svg"
-                alt=""
-              />
-            </div>
+              <span class="filter-sort__selected" id="browseSortSelected"
+                >Newest First</span
+              >
+              <span class="filter-sort__arrow" aria-hidden="true">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M6 9L12 15L18 9"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+            </button>
 
-            <div class="filter-sort__dropdown">
-              <div class="filter-sort__item filter-sort__item--active">
+            <div class="filter-sort__dropdown" id="browseSortDropdown">
+              <button
+                class="filter-sort__item filter-sort__item--active"
+                type="button"
+                data-sort-value="newest"
+              >
                 Newest First
-              </div>
-              <div class="filter-sort__item">Price: Low to High</div>
-              <div class="filter-sort__item">Price: High to Low</div>
-              <div class="filter-sort__item">Most Popular</div>
-              <div class="filter-sort__item">Title: A-Z</div>
+              </button>
+              <button
+                class="filter-sort__item"
+                type="button"
+                data-sort-value="price-asc"
+              >
+                Price: Low to High
+              </button>
+              <button
+                class="filter-sort__item"
+                type="button"
+                data-sort-value="price-desc"
+              >
+                Price: High to Low
+              </button>
+              <button
+                class="filter-sort__item"
+                type="button"
+                data-sort-value="popular"
+              >
+                Most Popular
+              </button>
+              <button
+                class="filter-sort__item"
+                type="button"
+                data-sort-value="title-asc"
+              >
+                Title: A-Z
+              </button>
             </div>
           </div>
         </div>
+        <div class="cards browse-courses-cards" id="browseCoursesCards"></div>
+        <div class="browse-pagination" id="browsePagination"></div>
       </div>
     </div>
 

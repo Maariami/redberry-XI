@@ -133,6 +133,23 @@ async function apiGetFeaturedCourses() {
   }
 }
 
+async function apiGetCourses({ sort = "newest", page = 1 } = {}) {
+  try {
+    const params = new URLSearchParams({
+      sort: String(sort),
+      page: String(page),
+    });
+    const res = await fetch(`${API_BASE}/courses?${params.toString()}`, {
+      headers: { Accept: "application/json" },
+    });
+    const data = await res.json();
+    return { ok: res.ok, data, status: res.status };
+  } catch (error) {
+    console.error("Failed to fetch courses:", error);
+    return { ok: false, error };
+  }
+}
+
 async function apiGetCategories() {
   try {
     const res = await fetch(`${API_BASE}/categories`, {

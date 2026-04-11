@@ -5,6 +5,10 @@
   const profileEmail = document.getElementById("profileEmail");
   const profilePhone = document.getElementById("profilePhone");
   const profileAge = document.getElementById("profileAge");
+  const profileAgeField = document.querySelector(".profile-age-field");
+  const profileAgeTrigger = document.getElementById("profileAgeTrigger");
+  const profileAgeValue = document.getElementById("profileAgeValue");
+  const profileAgeMenu = document.getElementById("profileAgeMenu");
   const profileFullNameError = document.getElementById("profileFullNameError");
   const profileEmailError = document.getElementById("profileEmailError");
   const profilePhoneError = document.getElementById("profilePhoneError");
@@ -34,6 +38,113 @@
 
   let profileAvatarState = null;
 
+  function normalizeProfilePhoneValue(value) {
+    const digits = String(value || "").replace(/\D/g, "");
+
+    if (digits.startsWith("995")) {
+      return digits.slice(3, 12);
+    }
+
+    return digits.slice(0, 9);
+  }
+
+  function syncProfileAgeLabel() {
+    if (!profileAge || !profileAgeValue) return;
+
+    const selectedOption = profileAge.options[profileAge.selectedIndex];
+    const hasValue = Boolean(profileAge.value);
+
+    profileAgeValue.textContent = hasValue
+      ? selectedOption?.textContent || profileAge.value
+      : "Select age";
+    profileAgeValue.classList.toggle("is-placeholder", !hasValue);
+  }
+
+  function closeProfileAgeDropdown() {
+    if (!profileAgeField || !profileAgeTrigger) return;
+    profileAgeField.classList.remove("is-open");
+    profileAgeTrigger.setAttribute("aria-expanded", "false");
+  }
+
+  function openProfileAgeDropdown() {
+    if (!profileAgeField || !profileAgeTrigger) return;
+    profileAgeField.classList.add("is-open");
+    profileAgeTrigger.setAttribute("aria-expanded", "true");
+  }
+
+  function renderProfileAgeOptions() {
+    if (!profileAge || !profileAgeMenu) return;
+
+    profileAgeMenu.innerHTML = Array.from(profileAge.options)
+      .filter((option) => option.value)
+      .map((option) => {
+        const isActive = option.value === profileAge.value;
+        return `
+          <button
+            class="profile-age-dropdown__option${isActive ? " is-active" : ""}"
+            type="button"
+            data-age-value="${option.value}"
+            role="option"
+            aria-selected="${isActive ? "true" : "false"}"
+          >
+            ${option.textContent}
+          </button>`;
+      })
+      .join("");
+  }
+
+  function initializeProfileAgeDropdown() {
+    if (
+      !profileAge ||
+      !profileAgeTrigger ||
+      !profileAgeMenu ||
+      !profileAgeField
+    ) {
+      return;
+    }
+
+    renderProfileAgeOptions();
+    syncProfileAgeLabel();
+
+    profileAgeTrigger.addEventListener("click", () => {
+      if (profileAgeField.classList.contains("is-open")) {
+        closeProfileAgeDropdown();
+        return;
+      }
+
+      openProfileAgeDropdown();
+    });
+
+    profileAgeMenu.addEventListener("click", (event) => {
+      const optionButton = event.target.closest("[data-age-value]");
+      if (!optionButton) return;
+
+      profileAge.value = optionButton.dataset.ageValue || "";
+      renderProfileAgeOptions();
+      syncProfileAgeLabel();
+      closeProfileAgeDropdown();
+      profileAge.dispatchEvent(new Event("change", { bubbles: true }));
+      window.validateProfileAge();
+    });
+
+    profileAge.addEventListener("change", () => {
+      renderProfileAgeOptions();
+      syncProfileAgeLabel();
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!profileAgeField.contains(event.target)) {
+        closeProfileAgeDropdown();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeProfileAgeDropdown();
+      }
+    });
+  }
+
   function appendCacheBuster(url) {
     if (!url) return url;
 
@@ -58,16 +169,12 @@
     if (!container) return;
     container.classList.remove(
       "has-error",
-      "has-success",
       "fullname-valid",
       "fullname-invalid",
       "email-valid",
       "email-invalid",
     );
     if (valid) {
-      if (showState) container.classList.add("has-success");
-      if (input === profileFullName) container.classList.add("fullname-valid");
-      if (input === profileEmail) container.classList.add("email-valid");
       if (showError) clearErr(errorEl);
     } else if (message) {
       if (showState) container.classList.add("has-error");
@@ -189,12 +296,7 @@
     const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
     const container = profileEmail.closest(".emailinput");
     if (!container) return false;
-    container.classList.remove(
-      "has-error",
-      "has-success",
-      "email-valid",
-      "email-invalid",
-    );
+    container.classList.remove("has-error", "email-valid", "email-invalid");
     if (!value) {
       if (showError) {
         setFieldState(
@@ -219,16 +321,14 @@
       );
       return false;
     }
-    if (showState) container.classList.add("has-success");
-    container.classList.add("email-valid");
     if (showError) clearErr(profileEmailError);
     return true;
   };
 
   window.validateProfilePhone = function validateProfilePhone() {
     clearErr(profilePhoneError);
-    const raw = profilePhone.value.trim();
-    const digits = raw.replace(/\D/g, "");
+    profilePhone.value = normalizeProfilePhoneValue(profilePhone.value);
+    const digits = profilePhone.value;
     if (!digits) {
       setFieldState(
         profilePhone,
@@ -347,6 +447,10 @@
     return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
   }
 
+  function getProfileFieldContainer(input) {
+    return input?.closest(".emailinput") || null;
+  }
+
   function resetProfileForm() {
     if (!profileUploadBtn || !profileAvatarFile || !profileAvatarPreviewArea) {
       return;
@@ -367,20 +471,23 @@
       profileGlobalError,
     ].forEach(clearErr);
     // Don't clear email error since it's read-only and always valid
-    profileFullName.parentElement.classList.remove(
+    getProfileFieldContainer(profileFullName)?.classList.remove(
       "has-error",
-      "has-success",
       "fullname-valid",
       "fullname-invalid",
       "email-valid",
       "email-invalid",
     );
-    // Email is read-only, so always show as valid
-    profileEmail.parentElement.classList.add("has-success", "email-valid");
-    profileEmail.parentElement.classList.remove("has-error", "email-invalid");
-    profilePhone.parentElement.classList.remove("has-error", "has-success");
-    profileAge.parentElement.classList.remove("has-error", "has-success");
+    getProfileFieldContainer(profileEmail)?.classList.remove(
+      "has-error",
+      "email-invalid",
+    );
+    getProfileFieldContainer(profilePhone)?.classList.remove("has-error");
+    getProfileFieldContainer(profileAge)?.classList.remove("has-error");
     profileUploadBtn.disabled = true;
+    renderProfileAgeOptions();
+    syncProfileAgeLabel();
+    closeProfileAgeDropdown();
     bindProfileUploadLink();
     bindAvatarListeners();
   }
@@ -423,15 +530,17 @@
     profileUsernameLabel.textContent = profileData.username || "Username";
     profileFullName.value = profileData.fullName || "";
     profileEmail.value = profileData.email || "";
-    profilePhone.value = profileData.mobileNumber || "";
+    profilePhone.value = normalizeProfilePhoneValue(profileData.mobileNumber);
     profileAge.value = profileData.age ? String(profileData.age) : "";
+    renderProfileAgeOptions();
+    syncProfileAgeLabel();
 
-    // Email is read-only, so always show as valid
-    profileEmail.parentElement.classList.add("has-success", "email-valid");
-    profileEmail.parentElement.classList.remove("has-error", "email-invalid");
-    profileFullName.parentElement.classList.remove(
+    getProfileFieldContainer(profileEmail)?.classList.remove(
       "has-error",
-      "has-success",
+      "email-invalid",
+    );
+    getProfileFieldContainer(profileFullName)?.classList.remove(
+      "has-error",
       "fullname-valid",
       "fullname-invalid",
     );
@@ -514,12 +623,16 @@
   }
 
   bindAvatarListeners();
+  initializeProfileAgeDropdown();
   if (profileFullName) {
     profileFullName.addEventListener("input", validateProfileForm);
     profileFullName.addEventListener("blur", () => validateProfileFullName());
   }
   if (profilePhone) {
-    profilePhone.addEventListener("input", validateProfileForm);
+    profilePhone.addEventListener("input", () => {
+      profilePhone.value = normalizeProfilePhoneValue(profilePhone.value);
+      validateProfileForm();
+    });
     profilePhone.addEventListener("blur", () => validateProfilePhone());
   }
   if (profileAge) {
