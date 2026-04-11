@@ -133,6 +133,45 @@ async function apiGetFeaturedCourses() {
   }
 }
 
+async function apiGetCategories() {
+  try {
+    const res = await fetch(`${API_BASE}/categories`, {
+      headers: { Accept: "application/json" },
+    });
+    const data = await res.json();
+    return { ok: res.ok, data, status: res.status };
+  } catch (error) {
+    console.error("Failed to fetch categories:", error);
+    return { ok: false, error };
+  }
+}
+
+async function apiGetTopics() {
+  try {
+    const res = await fetch(`${API_BASE}/topics`, {
+      headers: { Accept: "application/json" },
+    });
+    const data = await res.json();
+    return { ok: res.ok, data, status: res.status };
+  } catch (error) {
+    console.error("Failed to fetch topics:", error);
+    return { ok: false, error };
+  }
+}
+
+async function apiGetInstructors() {
+  try {
+    const res = await fetch(`${API_BASE}/instructors`, {
+      headers: { Accept: "application/json" },
+    });
+    const data = await res.json();
+    return { ok: res.ok, data, status: res.status };
+  } catch (error) {
+    console.error("Failed to fetch instructors:", error);
+    return { ok: false, error };
+  }
+}
+
 async function apiGetCourseWeeklySchedules(courseId) {
   try {
     const res = await fetch(

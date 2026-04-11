@@ -11,10 +11,51 @@
     <div id="sharedHeader"></div>
 
     <div class="main browse-page-main">
-      <div class="startlearning">
-        <div class="learntitle">Browse Courses</div>
-        <div class="learndesc">
-          Explore all available courses and choose what you want to learn next
+      <div class="filters">
+        <div class="location">
+          Home > <span style="color: rgba(79, 70, 229, 1)"> Browse </span>
+        </div>
+        <div class="filterstitle">
+          <p>Filters</p>
+          <button class="filters-clear" id="clearFiltersButton" type="button">
+            Clear All Filters &#10005;
+          </button>
+        </div>
+        <div class="filtertype">Category</div>
+        <div class="browse-filter-group" id="categoryFilters"></div>
+        <div class="filtertype">Topics</div>
+        <div class="browse-filter-group" id="topicFilters"></div>
+        <div class="filtertype">Instructor</div>
+        <div
+          class="browse-filter-group browse-filter-group--instructors"
+          id="instructorFilters"
+        ></div>
+        <div class="numoffilters">0 filters active</div>
+      </div>
+      <div class="rightpage">
+        <div class="rightlineone">
+          <div class="numofshown">Showing 9 o ut of 90</div>
+          <div class="filter-sort">
+            <div class="filter-sort__header">
+              <span class="filter-sort__label">Sort By:</span>
+              <span class="filter-sort__selected">Newest First</span>
+              <img
+                class="filter-sort__arrow"
+                src="./assets/dropdown.svg"
+                alt=""
+              />
+            </div>
+
+            <div class="filter-sort__dropdown">
+              <div class="filter-sort__item filter-sort__item--active">
+                Newest First
+              </div>
+              <div class="filter-sort__item">Price: Low to High</div>
+              <div class="filter-sort__item">Price: High to Low</div>
+              <div class="filter-sort__item">Most Popular</div>
+              <div class="filter-sort__item">Title: A-Z</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
