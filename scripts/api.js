@@ -1,7 +1,19 @@
 "use strict";
 
 // ─── API Configuration ───────────────────────────────────────────────────────
-const API_BASE = "/api";
+const REMOTE_API_BASE = "https://api.redclass.redberryinternship.ge/api";
+const API_BASE = (() => {
+  const configuredBase = String(window.__REDCLASS_API_BASE || "").trim();
+  if (configuredBase) {
+    return configuredBase.replace(/\/$/, "");
+  }
+
+  const hostname = window.location.hostname;
+  const isLocalHost =
+    hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1";
+
+  return isLocalHost ? "/api" : REMOTE_API_BASE;
+})();
 
 // ─── Login & Logout API ─────────────────────────────────────────────────────
 async function login(credentials) {
