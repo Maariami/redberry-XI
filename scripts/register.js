@@ -238,8 +238,12 @@
         return;
       }
 
-      updateAuthUI();
-      closeRegister();
+      if (typeof window.updateAuthUI === "function") {
+        window.updateAuthUI();
+      }
+      if (typeof window.closeRegister === "function") {
+        window.closeRegister();
+      }
       stepSuccess.classList.remove("hidden");
     } else {
       let fieldErrorShown = false;

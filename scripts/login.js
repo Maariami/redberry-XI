@@ -59,11 +59,11 @@
 
     if (result?.ok && token) {
       saveToken(token);
-      if (typeof updateAuthUI === "function") {
-        updateAuthUI();
+      if (typeof window.updateAuthUI === "function") {
+        window.updateAuthUI();
       }
-      if (typeof closeLogin === "function") {
-        closeLogin();
+      if (typeof window.closeLogin === "function") {
+        window.closeLogin();
       }
     } else {
       const message =

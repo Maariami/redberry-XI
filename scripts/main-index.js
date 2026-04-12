@@ -230,7 +230,7 @@
   }
 
   // Update header/footer for auth state
-  if (typeof updateAuthUI === "function") updateAuthUI();
+  if (typeof window.updateAuthUI === "function") window.updateAuthUI();
 
   // Load featured courses
   if (typeof loadFeaturedCourses === "function") loadFeaturedCourses();

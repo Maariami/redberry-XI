@@ -8,11 +8,7 @@ const API_BASE = (() => {
     return configuredBase.replace(/\/$/, "");
   }
 
-  const hostname = window.location.hostname;
-  const isLocalHost =
-    hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1";
-
-  return isLocalHost ? "/api" : REMOTE_API_BASE;
+  return REMOTE_API_BASE;
 })();
 
 // ─── Login & Logout API ─────────────────────────────────────────────────────

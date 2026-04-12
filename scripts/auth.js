@@ -47,7 +47,9 @@ async function logout() {
 
   // Clear token regardless of API response
   clearToken();
-  updateAuthUI();
+  if (typeof window.updateAuthUI === "function") {
+    window.updateAuthUI();
+  }
 
   if (success) {
     console.log("Successfully logged out");

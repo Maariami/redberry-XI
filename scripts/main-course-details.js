@@ -1725,8 +1725,8 @@
     const token = getToken();
     if (!token) {
       updateWarningUI("auth");
-      if (typeof openLogin === "function") {
-        openLogin();
+      if (typeof window.openLogin === "function") {
+        window.openLogin();
       }
       return;
     }
@@ -1778,8 +1778,8 @@
       state.completingCourse = false;
       setCompleteButtonLoading(false);
       updateWarningUI("auth");
-      if (typeof openLogin === "function") {
-        openLogin();
+      if (typeof window.openLogin === "function") {
+        window.openLogin();
       }
       return;
     }
@@ -1823,8 +1823,8 @@
       state.completingCourse = false;
       setCompleteButtonLoading(false);
       updateWarningUI("auth");
-      if (typeof openLogin === "function") {
-        openLogin();
+      if (typeof window.openLogin === "function") {
+        window.openLogin();
       }
       return;
     }
@@ -1873,8 +1873,8 @@
     }
 
     if (state.enrollmentGuard === "auth") {
-      if (typeof openLogin === "function") {
-        openLogin();
+      if (typeof window.openLogin === "function") {
+        window.openLogin();
       }
       return;
     }
@@ -2026,8 +2026,8 @@
     if (profileIncompleteConfirmBtn) {
       profileIncompleteConfirmBtn.addEventListener("click", () => {
         hidePopup(profileIncompletePopupEl);
-        if (typeof openProfile === "function") {
-          openProfile();
+        if (typeof window.openProfile === "function") {
+          window.openProfile();
         }
       });
     }
@@ -2133,8 +2133,8 @@
   }
 
   async function loadCourseDetails() {
-    if (typeof updateAuthUI === "function") {
-      updateAuthUI();
+    if (typeof window.updateAuthUI === "function") {
+      window.updateAuthUI();
     }
 
     bindPopupEvents();
@@ -2153,15 +2153,15 @@
 
     closeAllDropdowns();
 
-    if (signInBtn && typeof openLogin === "function") {
-      signInBtn.addEventListener("click", openLogin);
+    if (signInBtn && typeof window.openLogin === "function") {
+      signInBtn.addEventListener("click", window.openLogin);
     }
 
     if (courseWarningActionEl) {
       courseWarningActionEl.addEventListener("click", () => {
         if (state.enrollmentGuard === "auth") {
-          if (typeof openLogin === "function") {
-            openLogin();
+          if (typeof window.openLogin === "function") {
+            window.openLogin();
           }
           return;
         }

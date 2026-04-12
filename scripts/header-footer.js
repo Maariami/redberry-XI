@@ -83,13 +83,13 @@
   window.updateProfileDisplay = updateProfileDisplay;
 
   const loginBtn = document.querySelector(".login");
-  if (loginBtn && typeof openLogin === "function") {
-    loginBtn.addEventListener("click", openLogin);
+  if (loginBtn && typeof window.openLogin === "function") {
+    loginBtn.addEventListener("click", window.openLogin);
   }
 
   const signupBtn = document.querySelector(".signup");
-  if (signupBtn && typeof openRegister === "function") {
-    signupBtn.addEventListener("click", openRegister);
+  if (signupBtn && typeof window.openRegister === "function") {
+    signupBtn.addEventListener("click", window.openRegister);
   }
 
   const headerLogo = document.querySelector(".header .logo");
@@ -100,46 +100,46 @@
   }
 
   const proficon = document.querySelector(".proficon");
-  if (proficon && typeof openProfile === "function") {
+  if (proficon && typeof window.openProfile === "function") {
     proficon.addEventListener("click", () => {
       if (typeof isLoggedIn === "function" && isLoggedIn()) {
-        openProfile();
+        window.openProfile();
       }
     });
   }
 
   const footerProfileLink = document.getElementById("footerProfileLink");
-  if (footerProfileLink && typeof openProfile === "function") {
+  if (footerProfileLink && typeof window.openProfile === "function") {
     footerProfileLink.addEventListener("click", () => {
       if (typeof isLoggedIn === "function" && isLoggedIn()) {
-        openProfile();
+        window.openProfile();
       }
     });
   }
 
   const footerLoginLink = document.getElementById("footerLoginLink");
-  if (footerLoginLink && typeof openLogin === "function") {
-    footerLoginLink.addEventListener("click", openLogin);
+  if (footerLoginLink && typeof window.openLogin === "function") {
+    footerLoginLink.addEventListener("click", window.openLogin);
   }
 
   const footerSignupLink = document.getElementById("footerSignupLink");
-  if (footerSignupLink && typeof openRegister === "function") {
-    footerSignupLink.addEventListener("click", openRegister);
+  if (footerSignupLink && typeof window.openRegister === "function") {
+    footerSignupLink.addEventListener("click", window.openRegister);
   }
 
   const regCloseBtn = document.getElementById("regCloseBtn");
-  if (regCloseBtn && typeof closeRegister === "function") {
-    regCloseBtn.addEventListener("click", closeRegister);
+  if (regCloseBtn && typeof window.closeRegister === "function") {
+    regCloseBtn.addEventListener("click", window.closeRegister);
   }
 
   const loginCloseBtn = document.getElementById("loginCloseBtn");
-  if (loginCloseBtn && typeof closeLogin === "function") {
-    loginCloseBtn.addEventListener("click", closeLogin);
+  if (loginCloseBtn && typeof window.closeLogin === "function") {
+    loginCloseBtn.addEventListener("click", window.closeLogin);
   }
 
   const profileCloseBtn = document.getElementById("profileCloseBtn");
-  if (profileCloseBtn && typeof attemptCloseProfile === "function") {
-    profileCloseBtn.addEventListener("click", attemptCloseProfile);
+  if (profileCloseBtn && typeof window.attemptCloseProfile === "function") {
+    profileCloseBtn.addEventListener("click", window.attemptCloseProfile);
   }
 
   document.addEventListener("keydown", (event) => {
@@ -152,25 +152,25 @@
     if (
       registerOverlay &&
       !registerOverlay.classList.contains("hidden") &&
-      typeof closeRegister === "function"
+      typeof window.closeRegister === "function"
     ) {
-      closeRegister();
+      window.closeRegister();
     }
 
     if (
       loginOverlay &&
       !loginOverlay.classList.contains("hidden") &&
-      typeof closeLogin === "function"
+      typeof window.closeLogin === "function"
     ) {
-      closeLogin();
+      window.closeLogin();
     }
 
     if (
       profileOverlay &&
       !profileOverlay.classList.contains("hidden") &&
-      typeof attemptCloseProfile === "function"
+      typeof window.attemptCloseProfile === "function"
     ) {
-      attemptCloseProfile();
+      window.attemptCloseProfile();
     }
   });
 

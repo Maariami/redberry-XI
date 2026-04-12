@@ -677,7 +677,7 @@
         }
       }
 
-      await updateAuthUI(); // Update header UI
+      await window.updateAuthUI(); // Update header UI
       await fillProfileForm(); // Refresh profile data in modal
       validateProfileForm(); // Update validation states and button
       window.dispatchEvent(
@@ -686,8 +686,8 @@
         }),
       );
 
-      if (typeof closeProfile === "function") {
-        closeProfile();
+      if (typeof window.closeProfile === "function") {
+        window.closeProfile();
       }
 
       setTimeout(() => {

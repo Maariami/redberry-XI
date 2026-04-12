@@ -157,42 +157,6 @@ async function loadFeaturedCourses() {
   );
 }
 
-// ─── Header button handlers ───────────────────────────────────────────────────
-document.querySelector(".login").addEventListener("click", openLogin);
-document.querySelector(".signup").addEventListener("click", openRegister);
-
-const footerProfileLink = document.getElementById("footerProfileLink");
-if (footerProfileLink) {
-  footerProfileLink.addEventListener("click", () => {
-    if (isLoggedIn()) {
-      openProfile();
-    }
-  });
-}
-
-// ─── Close buttons ───────────────────────────────────────────────────────────
-document.getElementById("regCloseBtn").addEventListener("click", closeRegister);
-document.getElementById("loginCloseBtn").addEventListener("click", closeLogin);
-document
-  .getElementById("profileCloseBtn")
-  .addEventListener("click", attemptCloseProfile);
-
-// Keyboard: Escape closes whichever modal is open
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") {
-    if (!registerOverlay.classList.contains("hidden")) closeRegister();
-    if (!loginOverlay.classList.contains("hidden")) closeLogin();
-    if (!profileOverlay.classList.contains("hidden")) attemptCloseProfile();
-  }
-});
-
-document.querySelector(".proficon").addEventListener("click", () => {
-  if (isLoggedIn()) openProfile();
-});
-
-// Listen for auth changes
-window.addEventListener("auth:login", updateAuthUI);
-
 // ─── Init ─────────────────────────────────────────────────────────────────────
 if (document.readyState === "loading") {
   window.addEventListener("DOMContentLoaded", () => {

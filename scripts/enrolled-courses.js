@@ -482,9 +482,9 @@
     const { promptLogin = true } = options;
 
     if (typeof isLoggedIn !== "function" || !isLoggedIn()) {
-      if (typeof openLogin === "function") {
+      if (typeof window.openLogin === "function") {
         if (promptLogin) {
-          openLogin();
+          window.openLogin();
         }
       }
       return { ok: false, requiresLogin: true, courses: [] };
