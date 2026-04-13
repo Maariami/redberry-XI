@@ -164,7 +164,6 @@
   // Event listeners for registration
   regNextBtn1.addEventListener("click", async () => {
     if (!validateRegEmail()) return;
-    setLoading(regNextBtn1, false);
     regState.email = regEmail.value.trim();
     goToStep(2);
   });
@@ -228,7 +227,18 @@
     setLoading(regSignupBtn, false);
     if (result.ok) {
       const token = result?.data?.token ?? result?.data?.data?.token ?? null;
-      const tokenSaved = saveToken(token);
+
+      let tokenSaved = saveToken(token);
+
+      if (!tokenSaved) {
+        const loginResult = await login({
+          email: regState.email,
+          password: regState.password,
+        });
+        const loginToken =
+          loginResult?.data?.token ?? loginResult?.data?.data?.token ?? null;
+        tokenSaved = saveToken(loginToken);
+      }
 
       if (!tokenSaved) {
         showErr(
@@ -250,6 +260,7 @@
       if (result.data?.errors) {
         if (result.data.errors.email) {
           showErr(regEmailError, result.data.errors.email[0]);
+          goToStep(1);
           fieldErrorShown = true;
         }
         if (result.data.errors.username) {
@@ -258,6 +269,15 @@
         }
         if (result.data.errors.password) {
           showErr(regPasswordError, result.data.errors.password[0]);
+          goToStep(2);
+          fieldErrorShown = true;
+        }
+        if (result.data.errors.password_confirmation) {
+          showErr(
+            regConfirmPasswordError,
+            result.data.errors.password_confirmation[0],
+          );
+          goToStep(2);
           fieldErrorShown = true;
         }
         if (result.data.errors.avatar) {
@@ -284,4 +304,5 @@
   regNextBtn1.dataset.label = "Next";
   regNextBtn2.dataset.label = "Next";
   regSignupBtn.dataset.label = "Sign Up";
+  goToStep(1);
 })();

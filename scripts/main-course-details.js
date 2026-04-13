@@ -36,6 +36,9 @@
   const courseRatingDisplayStarsEl = document.getElementById(
     "courseRatingDisplayStars",
   );
+  const courseRatingDisplayTextEl = document.getElementById(
+    "courseRatingDisplayText",
+  );
   const courseProgressBadgeEl = document.getElementById("courseProgressBadge");
   const enrolledWeeklyScheduleEl = document.getElementById(
     "enrolledWeeklySchedule",
@@ -819,6 +822,12 @@
     const hasRating = Number(state.submittedCourseRating) > 0;
     courseRatingDisplayEl.classList.toggle("hidden", !hasRating);
     courseRatingDisplayEl.hidden = !hasRating;
+
+    if (courseRatingDisplayTextEl) {
+      courseRatingDisplayTextEl.textContent = hasRating
+        ? "You've already rated this course"
+        : "Rate your experience";
+    }
 
     courseRatingDisplayStarsEl
       .querySelectorAll("img")

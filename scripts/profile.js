@@ -60,6 +60,27 @@
     profileAgeValue.classList.toggle("is-placeholder", !hasValue);
   }
 
+  function ensureProfileAgeOptions() {
+    if (!profileAge) return;
+
+    const currentValue = String(profileAge.value || "");
+    const optionsMarkup = ['<option value="">Select age</option>'];
+
+    for (let age = 16; age <= 120; age += 1) {
+      optionsMarkup.push(`<option value="${age}">${age}</option>`);
+    }
+
+    profileAge.innerHTML = optionsMarkup.join("");
+
+    if (
+      currentValue &&
+      Number(currentValue) >= 16 &&
+      Number(currentValue) <= 120
+    ) {
+      profileAge.value = currentValue;
+    }
+  }
+
   function closeProfileAgeDropdown() {
     if (!profileAgeField || !profileAgeTrigger) return;
     profileAgeField.classList.remove("is-open");
@@ -74,6 +95,8 @@
 
   function renderProfileAgeOptions() {
     if (!profileAge || !profileAgeMenu) return;
+
+    ensureProfileAgeOptions();
 
     profileAgeMenu.innerHTML = Array.from(profileAge.options)
       .filter((option) => option.value)
@@ -193,7 +216,7 @@
         profileFullName,
         profileFullNameError,
         false,
-        "Full name is required",
+        "Name is required",
         showState,
         showError,
       );
@@ -205,7 +228,7 @@
         profileFullName,
         profileFullNameError,
         false,
-        "Full name must be at least 3 characters",
+        "Name must be at least 3 characters",
         showState,
         showError,
       );
@@ -217,7 +240,7 @@
         profileFullName,
         profileFullNameError,
         false,
-        "Full name must be 50 characters or less",
+        "Name must not exceed 50 characters",
         showState,
         showError,
       );
@@ -334,7 +357,7 @@
         profilePhone,
         profilePhoneError,
         false,
-        "მობილურის ნომერი აუცილებელია",
+        "Mobile number is required",
       );
       return false;
     }
@@ -343,7 +366,7 @@
         profilePhone,
         profilePhoneError,
         false,
-        "საქართველოს მობილური ნომერი უნდა იწყებოდეს 5-ით",
+        "Georgian mobile numbers must start with 5",
       );
       return false;
     }
@@ -352,7 +375,7 @@
         profilePhone,
         profilePhoneError,
         false,
-        "მობილურის ნომერი უნდა შედგებოდეს 9 ციფრისგან",
+        "Please enter a valid Georgian mobile number (9 digits starting with 5)",
       );
       return false;
     }
@@ -552,7 +575,7 @@
     }
 
     if (profileData.profileComplete) {
-      profileCompletionLabel.textContent = "Profile is Complete";
+      profileCompletionLabel.textContent = "Profile Complete ✓";
       profileCompletionLabel.classList.remove("status-incomplete");
       profileCompletionLabel.classList.add("status-complete");
       profileStatusIcon.src = "./assets/completed.png";
@@ -640,15 +663,15 @@
     profileAge.addEventListener("blur", () => validateProfileAge());
   }
   if (profileUploadBtn) {
-    profileUploadBtn.dataset.label = "Update Profile";
+    profileUploadBtn.dataset.label = "Save Profile";
     profileUploadBtn.addEventListener("click", async () => {
       if (!validateProfileForm()) return;
       profileUploadBtn.disabled = true;
-      profileUploadBtn.textContent = "Uploading...";
+      profileUploadBtn.textContent = "Saving...";
 
       const result = await submitProfileUpdate();
       profileUploadBtn.disabled = false;
-      profileUploadBtn.textContent = "Update Profile";
+      profileUploadBtn.textContent = "Save Profile";
 
       if (!result || result.ok === false) {
         const message =

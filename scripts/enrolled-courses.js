@@ -11,6 +11,16 @@
     catalogLoaded: false,
   };
 
+  function getSessionTypeModifierAmount(label) {
+    const normalizedLabel = String(label || "")
+      .toLowerCase()
+      .replace(/[^a-z-]/g, "");
+
+    if (normalizedLabel.includes("in-person")) return 50;
+    if (normalizedLabel.includes("hybrid")) return 30;
+    return 0;
+  }
+
   function escapeHtml(value) {
     return String(value ?? "")
       .replace(/&/g, "&amp;")
@@ -253,6 +263,29 @@
       progress: Number.isFinite(progress)
         ? Math.max(0, Math.min(100, progress))
         : 0,
+      basePrice: Number(
+        firstValue(
+          item,
+          [
+            "basePrice",
+            "base_price",
+            "price",
+            "course.basePrice",
+            "course.base_price",
+            "course.price",
+            "totalPrice",
+            "total_price",
+          ],
+          0,
+        ),
+      ),
+      totalPrice: Number(
+        firstValue(
+          item,
+          ["totalPrice", "total_price", "finalPrice", "final_price"],
+          Number.NaN,
+        ),
+      ),
     };
   }
 
@@ -293,6 +326,7 @@
           <p id="enrolledCoursesTitle">Enrolled Courses</p>
           <p id="enrolledCoursesCount">Total Enrollments 0</p>
         </div>
+        <div class="enrolled-summary" id="enrolledCoursesSummary">Summary: 0 enrollments • Total $0.00</div>
         <div class="enrolledcards" id="enrolledCoursesList"></div>
       </div>`;
 
@@ -324,6 +358,10 @@
       instructorName,
       rating,
       progress: enrollment.progress,
+      totalPrice: Number.isFinite(enrollment.totalPrice)
+        ? enrollment.totalPrice
+        : Number(courseMeta.basePrice ?? enrollment.basePrice ?? 0) +
+          getSessionTypeModifierAmount(enrollment.sessionTypeLabel),
       weeklyScheduleLabel: enrollment.weeklyScheduleLabel,
       timeSlotLabel: enrollment.timeSlotLabel,
       sessionTypeIcon: enrollment.sessionTypeIcon,
@@ -342,10 +380,25 @@
     const enrolledCoursesCount = document.getElementById(
       "enrolledCoursesCount",
     );
+    const enrolledCoursesSummary = document.getElementById(
+      "enrolledCoursesSummary",
+    );
 
-    if (!enrolledCoursesList || !enrolledCoursesCount) return;
+    if (
+      !enrolledCoursesList ||
+      !enrolledCoursesCount ||
+      !enrolledCoursesSummary
+    )
+      return;
 
     enrolledCoursesCount.textContent = `Total Enrollments ${enrolledState.enrollments.length}`;
+
+    const totalPrice = enrolledState.enrollments.reduce((sum, enrollment) => {
+      const cardData = getEnrollmentCardData(enrollment);
+      return sum + Number(cardData.totalPrice || 0);
+    }, 0);
+
+    enrolledCoursesSummary.textContent = `Summary: ${enrolledState.enrollments.length} enrollment${enrolledState.enrollments.length === 1 ? "" : "s"} • Total $${totalPrice.toFixed(2)}`;
 
     if (enrolledState.loadingEnrollments) {
       enrolledCoursesList.innerHTML =
@@ -397,6 +450,9 @@
                   </div>
                 </div>
                 <p class="enrolledtitle">${escapeHtml(cardData.courseTitle)}</p>
+                <div class="enrolledslot enrolledslot-price">
+                  Final Price: $${escapeHtml(Number(cardData.totalPrice || 0).toFixed(2))}
+                </div>
                 <div class="enrolledslot weekdays">
                   <img src="./assets/cal.svg" alt="" />${escapeHtml(cardData.weeklyScheduleLabel)}
                 </div>

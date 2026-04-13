@@ -71,6 +71,7 @@ function renderFeaturedCourses(courses) {
   }
 
   cards.innerHTML = courses
+    .slice(0, 3)
     .map((course, idx) => {
       const image = course.image || "./assets/cardimage.png";
       const title = course.title || "Untitled course";
@@ -109,7 +110,7 @@ function renderFeaturedCourses(courses) {
                 >$${price}</span
               >
             </div>
-            <button class="details" type="button" data-course-idx="${idx}">Details</button>
+            <button class="details" type="button" data-course-idx="${idx}">View Details</button>
           </div>
         </div>`;
     })

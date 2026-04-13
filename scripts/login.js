@@ -54,6 +54,21 @@
       return;
     }
 
+    if (email.length < 3 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      showErr(
+        loginEmailError,
+        "Please enter a valid email with at least 3 characters.",
+      );
+      setLoading(loginSubmitBtn, false);
+      return;
+    }
+
+    if (password.trim().length < 3) {
+      showErr(loginPasswordError, "Password must be at least 3 characters.");
+      setLoading(loginSubmitBtn, false);
+      return;
+    }
+
     const result = await login({ email, password });
     const token = result?.data?.token ?? result?.data?.data?.token ?? null;
 
@@ -89,6 +104,37 @@
   loginPassword.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
       handleLoginSubmit();
+    }
+  });
+
+  loginEmail.addEventListener("blur", () => {
+    const value = loginEmail.value.trim();
+    clearErr(loginEmailError);
+
+    if (!value) {
+      showErr(loginEmailError, "Email is required.");
+      return;
+    }
+
+    if (value.length < 3 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+      showErr(
+        loginEmailError,
+        "Please enter a valid email with at least 3 characters.",
+      );
+    }
+  });
+
+  loginPassword.addEventListener("blur", () => {
+    const value = loginPassword.value.trim();
+    clearErr(loginPasswordError);
+
+    if (!value) {
+      showErr(loginPasswordError, "Password is required.");
+      return;
+    }
+
+    if (value.length < 3) {
+      showErr(loginPasswordError, "Password must be at least 3 characters.");
     }
   });
 

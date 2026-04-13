@@ -295,7 +295,7 @@
                 </div>
                 <span class="field-error" id="profileAvatarError"></span>
               </div>
-              <button class="nextbutton" id="profileUploadBtn" style="margin-top: 16px">Update Profile</button>
+              <button class="nextbutton" id="profileUploadBtn" style="margin-top: 16px">Save Profile</button>
               <span id="profileGlobalError" class="field-error" style="display: none; text-align: center; margin-top: 12px; width: 100%"></span>
               <div id="profileSuccessMessage" class="profile-success" style="display: none; margin-top: 12px; text-align: center">Profile updated successfully ✓</div>
             </div>

@@ -1,7 +1,0 @@
-{
-  "name": "redberry-xi",
-  "private": true,
-  "scripts": {
-    "start": "node server.js"
-  }
-}

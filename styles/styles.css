@@ -752,10 +752,12 @@ select.input {
   height: 100%;
   opacity: 0;
   transition: 0.5s;
+  pointer-events: none;
 }
 
 .slide.active {
   opacity: 1;
+  pointer-events: auto;
 }
 
 .slide img {
@@ -1141,12 +1143,6 @@ select.input {
   padding: 7.5px 12px;
   gap: 10px;
   border-radius: 12px;
-}
-.browse-filter-chip.course-detail-meta-item:hover {
-  background-color: rgba(221, 219, 250, 1);
-  color: rgba(40, 30, 210, 1);
-  cursor: pointer;
-  border: none;
 }
 .course-detail-meta-item.selected {
   color: rgba(40, 30, 210, 1);
@@ -1920,6 +1916,16 @@ select.input {
   line-height: 25px;
   letter-spacing: 0%;
 }
+
+.enrolled-summary {
+  margin-top: 8px;
+  color: rgba(84, 84, 84, 1);
+  font-family: "Inter";
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 22px;
+}
+
 .enrolledcards {
   margin-left: 16.5px;
   margin-right: 40.5px;
@@ -2008,6 +2014,12 @@ select.input {
   letter-spacing: 0%;
   color: rgba(102, 102, 102, 1);
 }
+
+.enrolledslot-price {
+  color: rgba(79, 70, 229, 1);
+  font-weight: 600;
+}
+
 .enrolledslot > img {
   width: 16px;
   height: 16px;
@@ -2339,6 +2351,7 @@ select.input {
   -webkit-appearance: none;
   border: 1px solid transparent;
   background: rgba(255, 255, 255, 1);
+  color: rgba(102, 102, 102, 1);
   width: fit-content;
   display: inline-flex;
   align-items: center;
@@ -2347,17 +2360,18 @@ select.input {
   transition:
     color 0.2s ease,
     border-color 0.2s ease,
-    background-color 0.2s ease,
-    box-shadow 0.2s ease;
+    background-color 0.2s ease;
 }
 .browse-filter-chip.course-detail-meta-item:hover {
-  border-color: rgba(183, 179, 244, 1);
-  box-shadow: 0px 0px 15px 0px rgba(138, 130, 212, 0.2);
+  background-color: rgba(221, 219, 250, 1);
+  color: rgba(40, 30, 210, 1);
+  border-color: transparent;
 }
 .browse-filter-chip.course-detail-meta-item.selected:hover,
 .browse-filter-chip.course-detail-meta-item.selected {
-  border-color: rgba(149, 143, 239, 1);
-  box-shadow: 0px 0px 45px 0px rgba(138, 130, 212, 0.15);
+  background-color: rgba(238, 237, 252, 1);
+  color: rgba(40, 30, 210, 1);
+  border-color: rgba(40, 30, 210, 1);
 }
 .browse-filter-chip--topic {
   min-height: 39px;
@@ -2652,7 +2666,7 @@ select.input {
 .coursebaseinfo .coursetitle {
   margin-bottom: 18px;
 }
-.course-detail-meta-item.category {
+.browse-course-card .course-detail-meta-item.category {
   background-color: rgba(245, 245, 245, 1);
   gap: 7px;
   margin-bottom: 0;

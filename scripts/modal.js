@@ -36,6 +36,13 @@
   async function openProfile() {
     if (!profileOverlay) return;
 
+    if (typeof isLoggedIn === "function" && !isLoggedIn()) {
+      if (typeof openLogin === "function") {
+        openLogin();
+      }
+      return;
+    }
+
     if (registerOverlay) registerOverlay.classList.add("hidden");
     if (loginOverlay) loginOverlay.classList.add("hidden");
     if (typeof window.resetProfileForm === "function") {

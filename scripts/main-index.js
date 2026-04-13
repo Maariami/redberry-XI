@@ -157,7 +157,7 @@
                 type="button"
                 data-course-id="${escapeHtml(course.courseId)}"
               >
-                View
+                Continue
               </button>
             </div>
           </article>`,
@@ -202,6 +202,7 @@
 
     if (result?.requiresLogin) {
       setContinueLearningPosition(false);
+      if (seeAllButton) seeAllButton.style.display = "none";
       renderContinueLearningCourses(dummyContinueLearningCourses, {
         openLoginOnView: true,
         useDummyCardStyling: true,
@@ -211,6 +212,7 @@
 
     if (!result?.ok) {
       setContinueLearningPosition(true);
+      if (seeAllButton) seeAllButton.style.display = "none";
       renderContinueLearningState(
         "Could not load your courses",
         "Please try again in a moment.",
@@ -222,10 +224,16 @@
       setContinueLearningPosition(true);
       setContinueLearningVisibility(false);
       setContinueLearningLocked(false);
+      if (seeAllButton) seeAllButton.style.display = "none";
+      continueLearningCardsEl.innerHTML = "";
       return;
     }
 
     setContinueLearningPosition(true);
+    if (seeAllButton) {
+      seeAllButton.style.display =
+        result.courses.length > 3 ? "inline-flex" : "none";
+    }
     renderContinueLearningCourses(result.courses.slice(0, 3));
   }
 
